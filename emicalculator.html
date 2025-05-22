@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your monthly loan EMI for personal, home, car, and education loans. Get detailed results and visualizations.">
+    <meta property="og:title" content="Loan EMI Calculator">
+    <meta property="og:description" content="Calculate your EMI and visualize your loan payments easily.">
+    <meta property="og:image" content="path/to/image.jpg"> <!-- Update with actual image path -->
+    <meta property="og:url" content="https://yourwebsite.com/emi-calculator"> <!-- Update with actual URL -->
+    <title>Loan EMI Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Light neutral background */
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 1.5rem;
+        }
+        .info-section, .about-section, .faq-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #e9ecef;
+            border-radius: 8px;
+        }
+        .info-section p, .about-section p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .form-group input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+        }
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        .results {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #d4edda; /* Light green background for results */
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #155724; /* Dark green text */
+            border: 1px solid #c3e6cb;
+        }
+        .results h2 {
+            color: #155724;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .results p {
+            margin-bottom: 0.5rem;
+        }
+        .amortization-table {
+            margin: 2rem auto;
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            overflow: hidden; /* Ensures rounded corners apply to table */
+        }
+        .amortization-table th, .amortization-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: center;
+        }
+        .amortization-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 500;
+        }
+        .amortization-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .amortization-table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .faq-section details {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .faq-section summary {
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            color: #007bff;
+        }
+        .faq-section details[open] summary {
+            color: #0056b3;
+        }
+        .faq-section details div {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #dee2e6;
+            color: #555;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #dee2e6;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .form-group input {
+                padding: 10px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+            .amortization-table th, .amortization-table td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .info-section, .about-section, .faq-section {
+                padding: 1rem;
+            }
+            .form-section {
+                gap: 1rem;
+            }
+            .form-group input {
+                font-size: 0.9rem;
+            }
+            button {
+                font-size: 0.9rem;
+            }
+            .results {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .amortization-table {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+        <h1>Loan EMI Calculator</h1>
+        <div class="info-section">
+            <p>Easily calculate your Equated Monthly Installment (EMI) for various types of loans, including home loans, car loans, personal loans, and education loans. Get a clear breakdown of your payment schedule.</p>
+        </div>
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount (₹):</label>
+                <input type="number" id="loanAmount" placeholder="e.g., 500000" min="1" required />
+            </div>
+            <div class="form-group">
+                <label for="interestRate">Annual Interest Rate (%):</label>
+                <input type="number" id="interestRate" placeholder="e.g., 8.5" min="0.1" step="0.1" required />
+            </div>
+            <div class="form-group">
+                <label for="loanTenure">Loan Tenure (Months):</label>
+                <input type="number" id="loanTenure" placeholder="e.g., 120" min="1" required />
+            </div>
+            <button id="calculateBtn">Calculate EMI</button>
+        </div>
+
+        <div id="result" class="results" style="display:none;"></div>
+
+        <table class="amortization-table" id="amortizationTable" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>EMI</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="amortizationBody"></tbody>
+        </table>
+
+        <div class="about-section">
+            <h2>About This Tool</h2>
+            <p>This Loan EMI Calculator helps you determine the monthly installment you need to pay towards your loan. By inputting the principal loan amount, the annual interest rate, and the loan tenure in months, the calculator provides you with the exact EMI amount, the total interest payable, and the total amount payable. It also generates a detailed amortization schedule showing the breakdown of principal and interest for each month.</p>
+            <p>This tool is useful for financial planning, comparing different loan offers, and understanding how your loan is repaid over time.</p>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What is EMI?</summary>
+                <div>EMI stands for Equated Monthly Installment. It is a fixed payment amount made by a borrower to a lender at a specified date each calendar month. EMIs are used to pay off both interest and principal every month, so that over a specified number of years, the loan is fully paid off.</div>
+            </details>
+            <details>
+                <summary>How is EMI calculated?</summary>
+                <div>The formula for calculating EMI is: P * r * (1 + r)^n / ((1 + r)^n – 1), where P is the principal loan amount, r is the monthly interest rate (annual rate divided by 12 and then by 100), and n is the loan tenure in months.</div>
+            </details>
+            <details>
+                <summary>What is an amortization schedule?</summary>
+                <div>An amortization schedule is a table detailing each periodic payment on an amortizing loan (typically a mortgage or car loan), as generated by an amortization calculator. It shows the amount of principal and interest included in each payment and the remaining loan balance after each payment.</div>
+            </details>
+            <details>
+                <summary>Can I use this calculator for different loan types?</summary>
+                <div>Yes, this calculator can be used for any type of amortizing loan, including home loans, car loans, personal loans, and education loans, as long as you have the principal amount, annual interest rate, and loan tenure.</div>
+            </details>
+            <details>
+                <summary>Is my data stored?</summary>
+                <div>No, your input data is processed locally in your browser and is not stored or transmitted anywhere.</div>
+            </details>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Loan EMI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultDiv = document.getElementById('result');
+        const amortizationTable = document.getElementById('amortizationTable');
+        const amortizationBody = document.getElementById('amortizationBody');
+
+        calculateBtn.addEventListener('click', () => {
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+            const annualInterestRate = parseFloat(document.getElementById('interestRate').value);
+            const loanTenure = parseInt(document.getElementById('loanTenure').value);
+
+            if (isNaN(loanAmount) || isNaN(annualInterestRate) || isNaN(loanTenure) || loanAmount <= 0 || annualInterestRate < 0 || loanTenure <= 0) {
+                resultDiv.innerHTML = '<span style="color:red;">Please enter valid loan details.</span>';
+                resultDiv.style.display = 'block';
+                amortizationTable.style.display = 'none';
+                return;
+            }
+
+            const monthlyInterestRate = annualInterestRate / 100 / 12;
+
+            // Calculate EMI
+            const emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTenure)) / (Math.pow(1 + monthlyInterestRate, loanTenure) - 1);
+
+            // Handle case where interest rate is 0
+            if (annualInterestRate === 0) {
+                 const principalPayment = loanAmount / loanTenure;
+                 const totalPayment = loanAmount;
+                 const totalInterest = 0;
+                 resultDiv.innerHTML = `
+                    <h2>EMI Details:</h2>
+                    <p>Monthly Payment: ₹${principalPayment.toFixed(2)}</p>
+                    <p>Total Interest Payable: ₹${totalInterest.toFixed(2)}</p>
+                    <p>Total Payment (Principal + Interest): ₹${totalPayment.toFixed(2)}</p>
+                `;
+                 generateAmortizationSchedule(loanAmount, monthlyInterestRate, loanTenure, principalPayment, true); // Pass true for 0 interest
+            } else {
+                const totalPayment = emi * loanTenure;
+                const totalInterest = totalPayment - loanAmount;
+
+                resultDiv.innerHTML = `
+                    <h2>EMI Details:</h2>
+                    <p>Monthly EMI: ₹${emi.toFixed(2)}</p>
+                    <p>Total Interest Payable: ₹${totalInterest.toFixed(2)}</p>
+                    <p>Total Payment (Principal + Interest): ₹${totalPayment.toFixed(2)}</p>
+                `;
+                generateAmortizationSchedule(loanAmount, monthlyInterestRate, loanTenure, emi, false); // Pass false for non-zero interest
+            }
+
+
+            resultDiv.style.display = 'block';
+        });
+
+        function generateAmortizationSchedule(loanAmount, monthlyInterestRate, loanTenure, payment, isZeroInterest) {
+            amortizationBody.innerHTML = '';
+            let balance = loanAmount;
+
+            for (let month = 1; month <= loanTenure; month++) {
+                let interest, principal;
+
+                if (isZeroInterest) {
+                    interest = 0;
+                    principal = payment;
+                } else {
+                    interest = balance * monthlyInterestRate;
+                    principal = payment - interest;
+                }
+
+                balance -= principal;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${month}</td>
+                    <td>₹${payment.toFixed(2)}</td>
+                    <td>₹${principal.toFixed(2)}</td>
+                    <td>₹${interest.toFixed(2)}</td>
+                    <td>₹${Math.max(balance, 0).toFixed(2)}</td>
+                `;
+                amortizationBody.appendChild(row);
+            }
+
+            amortizationTable.style.display = 'table';
+        }
+    </script>
+</body>
+</html>

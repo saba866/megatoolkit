@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create professional digital signatures instantly. Free online tool for drawing, typing, or uploading signatures in PNG, JPG & SVG formats.">
+    <meta name="keywords" content="signature generator, digital signature, online signature, e-signature, create signature">
+    <meta name="author" content="Your Name">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/signature-generator">
+    <meta property="og:title" content="Professional Signature Generator | Create Digital Signatures">
+    <meta property="og:description" content="Create and download professional digital signatures in seconds. Works on all devices.">
+    <meta property="og:image" content="https://yourwebsite.com/images/signature-generator-preview.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/signature-generator">
+    <meta property="twitter:title" content="Professional Signature Generator | Create Digital Signatures">
+    <meta property="twitter:description" content="Create and download professional digital signatures in seconds. Works on all devices.">
+    <meta property="twitter:image" content="https://yourwebsite.com/images/signature-generator-preview.jpg">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Signature Generator",
+      "url": "https://yourwebsite.com/signature-generator",
+      "description": "Free online tool to create professional digital signatures",
+      "operatingSystem": "All",
+      "applicationCategory": "Productivity",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <title>Professional Signature Generator | Create Digital Signatures</title>
+    
+    <style>
+        /* Modern responsive design */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .signature-tools {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .signature-tools button {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .signature-tools button:hover {
+            background-color: #2980b9;
+        }
+
+        #signatureCanvas {
+            border: 1px solid #ddd;
+            margin: 0 auto 20px;
+            display: block;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .signature-upload label {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .signature-upload label:hover {
+            background-color: #2980b9;
+        }
+
+        .signature-preview {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .signature-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .download-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .download-options button {
+            padding: 12px 24px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .download-options button:hover {
+            background-color: #219150;
+        }
+
+        /* About & FAQ Sections */
+        .about-section, .faq-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-section details {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px 15px;
+        }
+
+        .faq-section summary {
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .faq-section p {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .signature-tools {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .signature-tools button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            #signatureCanvas {
+                width: 100% !important;
+                height: auto !important;
+            }
+            
+            .download-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-options button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Back to Home
+            </a>
+        </div>
+        
+        <h1>Create Your Digital Signature</h1>
+        <p>Generate a professional signature using any of these methods:</p>
+        
+        <div class="signature-tools">
+            <button id="drawSignatureBtn">Draw Signature</button>
+            <button id="typeSignatureBtn">Type Signature</button>
+            <button id="uploadSignatureBtn">Upload Signature</button>
+        </div>
+        
+        <canvas class="signature-canvas" id="signatureCanvas" width="500" height="200"></canvas>
+        
+        <div class="signature-upload">
+            <input type="file" id="signatureFileInput" accept="image/*" />
+            <label for="signatureFileInput">Upload Signature Image</label>
+        </div>
+        
+        <div class="signature-preview" id="signaturePreview">
+            <img id="signaturePreviewImg" />
+        </div>
+        
+        <div class="download-options" id="downloadOptions">
+            <button id="downloadPngBtn">Download PNG</button>
+            <button id="downloadJpgBtn">Download JPG</button>
+            <button id="downloadSvgBtn">Download SVG</button>
+        </div>
+        
+        <!-- About Section -->
+        <section class="about-section">
+            <h2>About This Signature Generator</h2>
+            <p>Our free online signature generator helps you create professional digital signatures instantly...</p>
+            
+            <h3>Key Features:</h3>
+            <ul>
+                <li>Draw your signature with mouse or touch</li>
+                <li>Type your name with beautiful fonts</li>
+                <li>Upload an existing signature image</li>
+                <li>Download in PNG, JPG or SVG formats</li>
+                <li>100% free with no watermarks</li>
+                <li>Works on all devices</li>
+            </ul>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <details>
+                <summary>Is my signature secure when using this tool?</summary>
+                <p>Yes! All signature processing happens in your browser...</p>
+            </details>
+            
+            <!-- Additional FAQ items -->
+            
+        </section>
+    </div>
+    
+    <script>
+        const signatureCanvas = document.getElementById('signatureCanvas');
+        const ctx = signatureCanvas.getContext('2d');
+        const signaturePreview = document.getElementById('signaturePreview');
+        const signaturePreviewImg = document.getElementById('signaturePreviewImg');
+        const downloadOptions = document.getElementById('downloadOptions');
+        const drawSignatureBtn = document.getElementById('drawSignatureBtn');
+        const typeSignatureBtn = document.getElementById('typeSignatureBtn');
+        const uploadSignatureBtn = document.getElementById('uploadSignatureBtn');
+        const signatureFileInput = document.getElementById('signatureFileInput');
+        const downloadPngBtn = document.getElementById('downloadPngBtn');
+        const downloadJpgBtn = document.getElementById('downloadJpgBtn');
+        const downloadSvgBtn = document.getElementById('downloadSvgBtn');
+        const copySignatureBtn = document.getElementById('copySignatureBtn');
+
+        let isDrawing = false;
+        let lastX, lastY;
+
+        drawSignatureBtn.addEventListener('click', () => {
+            signatureCanvas.style.display = 'block';
+            signaturePreview.style.display = 'none';
+            downloadOptions.style.display = 'none';
+            ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height); // Clear canvas
+            signatureCanvas.addEventListener('mousedown', startDrawing);
+            signatureCanvas.addEventListener('mousemove', draw);
+            signatureCanvas.addEventListener('mouseup', stopDrawing);
+            signatureCanvas.addEventListener('mouseout', stopDrawing);
+        });
+
+        typeSignatureBtn.addEventListener('click', () => {
+            const typedSignature = prompt("Enter your signature:");
+            if (typedSignature) {
+                ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height); // Clear canvas
+                ctx.font = "30px Arial";
+                ctx.fillText(typedSignature, 50, 100);
+                signaturePreviewImg.src = signatureCanvas.toDataURL();
+                signaturePreview.style.display = 'block';
+                downloadOptions.style.display = 'block';
+                copySignatureBtn.style.display = 'block';
+            }
+        });
+
+        uploadSignatureBtn.addEventListener('click', () => {
+            signatureFileInput.click();
+        });
+
+        signatureFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    const imageData = fileReader.result;
+                    signaturePreviewImg.src = imageData;
+                    signaturePreview.style.display = 'block';
+                    downloadOptions.style.display = 'block';
+                    copySignatureBtn.style.display = 'block';
+                };
+                fileReader.readAsDataURL(file);
+            }
+        });
+
+        downloadPngBtn.addEventListener('click', () => {
+            downloadSignature('png');
+        });
+
+        downloadJpgBtn.addEventListener('click', () => {
+            downloadSignature('jpg');
+        });
+
+        downloadSvgBtn.addEventListener('click', () => {
+            downloadSignature('svg');
+        });
+
+        copySignatureBtn.addEventListener('click', () => {
+            const canvasData = signatureCanvas.toDataURL();
+            const img = new Image();
+            img.src = canvasData;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob(blob => {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    navigator.clipboard.write([item]).then(() => {
+                        alert('Signature copied to clipboard!');
+                    });
+                });
+            };
+        });
+
+        function startDrawing(event) {
+            isDrawing = true;
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+        }
+
+        function draw(event) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.closePath();
+            signaturePreviewImg.src = signatureCanvas.toDataURL();
+            signaturePreview.style.display = 'block';
+            downloadOptions.style.display = 'block';
+            copySignatureBtn.style.display = 'block';
+        }
+
+        function downloadSignature(format) {
+            const link = document.createElement('a');
+            link.download = `signature.${format}`;
+            link.href = signatureCanvas.toDataURL(`image/${format}`);
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your investment's future value with our free calculator. Plan your financial future by estimating returns on investments with compound interest and recurring contributions.">
+    <title>Investment Calculator - Plan Your Financial Future | FinTools</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" defer></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --background-soft: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-color);
+        }
+
+        .about-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--background-soft);
+            border-radius: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, select {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--background-soft);
+            border-radius: 8px;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        details {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        summary {
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        details p {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--background-soft);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+        <div class="card">
+            <h1>Investment Calculator</h1>
+
+            <section class="about-section">
+                <h2>About This Tool</h2>
+                <p>Our investment calculator helps you estimate the future value of your investments. Enter your initial investment, monthly contributions, expected return rate, and investment duration to see how your money could grow over time. Perfect for long-term financial planning and retirement calculations.</p>
+            </section>
+
+            <form id="investment-form" class="form-grid">
+                <div class="form-group">
+                    <label for="initialInvestment">Initial Investment (₹)</label>
+                    <input type="number" id="initialInvestment" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="recurringContributions">Monthly Contribution (₹)</label>
+                    <input type="number" id="recurringContributions" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="annualReturnRate">Expected Annual Return Rate (%)</label>
+                    <input type="number" id="annualReturnRate" min="0.1" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="investmentDuration">Investment Duration (Years)</label>
+                    <input type="number" id="investmentDuration" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="compoundingFrequency">Compounding Frequency</label>
+                    <select id="compoundingFrequency" required>
+                        <option value="12">Monthly</option>
+                        <option value="4">Quarterly</option>
+                        <option value="2">Semi-Annually</option>
+                        <option value="1">Annually</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="calculateBtn">Calculate Investment Growth</button>
+            </form>
+
+            <div id="result" class="result" style="display: none;"></div>
+            <div class="chart-container">
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>How is the future value calculated?</summary>
+                <p>The calculator uses the compound interest formula, considering your initial investment, regular contributions, and the expected rate of return. It factors in your chosen compounding frequency to provide a more accurate estimate of your investment's growth.</p>
+            </details>
+            <details>
+                <summary>What should I input as the expected return rate?</summary>
+                <p>The expected return rate should be based on historical performance and your investment strategy. For long-term stock market investments, many financial advisors use 7-10% as a benchmark, while more conservative investments might use 3-5%.</p>
+            </details>
+            <details>
+                <summary>Why does compounding frequency matter?</summary>
+                <p>More frequent compounding (e.g., monthly vs. annually) can result in slightly higher returns as interest is earned on previously earned interest more often. This effect becomes more significant over longer investment periods.</p>
+            </details>
+            <details>
+                <summary>Are taxes and inflation considered in the calculations?</summary>
+                <p>No, this calculator provides pre-tax future values and does not account for inflation. Consider consulting with a financial advisor for more detailed planning that includes these factors.</p>
+            </details>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "How is the future value calculated?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The calculator uses the compound interest formula, considering your initial investment, regular contributions, and the expected rate of return. It factors in your chosen compounding frequency to provide a more accurate estimate of your investment's growth."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What should I input as the expected return rate?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The expected return rate should be based on historical performance and your investment strategy. For long-term stock market investments, many financial advisors use 7-10% as a benchmark, while more conservative investments might use 3-5%."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Why does compounding frequency matter?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "More frequent compounding (e.g., monthly vs. annually) can result in slightly higher returns as interest is earned on previously earned interest more often. This effect becomes more significant over longer investment periods."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Are taxes and inflation considered in the calculations?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, this calculator provides pre-tax future values and does not account for inflation. Consider consulting with a financial advisor for more detailed planning that includes these factors."
+            }
+        }]
+    }
+    </script>
+
+    <script>
+        document.getElementById('investment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const initialInvestment = parseFloat(document.getElementById('initialInvestment').value);
+            const recurringContributions = parseFloat(document.getElementById('recurringContributions').value) || 0;
+            const annualReturnRate = parseFloat(document.getElementById('annualReturnRate').value) / 100;
+            const investmentDuration = parseInt(document.getElementById('investmentDuration').value);
+            const compoundingFrequency = parseInt(document.getElementById('compoundingFrequency').value);
+
+            if (isNaN(initialInvestment) || isNaN(annualReturnRate) || isNaN(investmentDuration) || 
+                initialInvestment < 0 || annualReturnRate < 0 || investmentDuration <= 0) {
+                alert('Please enter valid investment details.');
+                return;
+            }
+
+            const totalMonths = investmentDuration * 12;
+            const totalInvested = initialInvestment + (recurringContributions * totalMonths);
+            let estimatedReturns = 0;
+            let investmentValues = [];
+
+            for (let month = 1; month <= totalMonths; month++) {
+                const compoundInterest = initialInvestment * Math.pow(1 + annualReturnRate / compoundingFrequency, 
+                    compoundingFrequency * (month / 12));
+                estimatedReturns += recurringContributions * Math.pow(1 + annualReturnRate / compoundingFrequency, 
+                    compoundingFrequency * (month / 12));
+                investmentValues.push(compoundInterest + estimatedReturns);
+            }
+
+            const totalFutureValue = investmentValues[investmentValues.length - 1];
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>Investment Summary</h3>
+                <p><strong>Total Invested:</strong> ₹${totalInvested.toLocaleString('en-IN', {maximumFractionDigits: 2})}</p>
+                <p><strong>Estimated Returns:</strong> ₹${(totalFutureValue - totalInvested).toLocaleString('en-IN', {maximumFractionDigits: 2})}</p>
+                <p><strong>Total Future Value:</strong> ₹${totalFutureValue.toLocaleString('en-IN', {maximumFractionDigits: 2})}</p>
+            `;
+
+            // Update chart
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            if (window.investmentChart instanceof Chart) {
+                window.investmentChart.destroy();
+            }
+            window.investmentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: totalMonths }, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Investment Growth',
+                        data: investmentValues,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '₹' + context.parsed.y.toLocaleString('en-IN', {maximumFractionDigits: 2});
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Months'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Value (₹)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString('en-IN', {maximumFractionDigits: 0});
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

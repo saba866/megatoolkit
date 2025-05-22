@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Megatoolkit - All-in-One Image & Video & PDF Utility Hub</title>
+  <meta name="description" content="Powerful combined image, video & PDF tools to compress, remove backgrounds, edit and convert media files with ease."/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      background-color: #0077ff;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1.2px;
+      user-select: none;
+      cursor: default;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul li {
+      position: relative; /* Needed for dropdown positioning */
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+      display: block; /* Make links block for padding */
+      padding: 0.5rem 0; /* Add some padding */
+    }
+    nav ul li a:hover {
+      color: #d1e9ff;
+    }
+
+    /* Dropdown styles */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      top: 100%; /* Position below the parent link */
+      left: -20px; /* Shift dropdown 20px to the left */
+      border-radius: 5px;
+      overflow-y: auto; /* Add vertical scroll if content overflows */
+      max-height: 300px; /* Set a max height for vertical scrolling */
+      overflow-x: auto; /* Add horizontal scroll if content overflows */
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+      font-weight: 400;
+      font-size: 0.9rem;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+      color: #0077ff;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* About dropdown specific style */
+    .about-dropdown {
+        padding: 15px;
+        color: #333;
+        font-size: 0.9rem;
+        text-align: left;
+    }
+     .about-dropdown p {
+         margin-bottom: 10px;
+     }
+     .about-dropdown strong {
+         display: block;
+         margin-bottom: 5px;
+     }
+
+
+    .hero {
+      background: linear-gradient(135deg, #005fcc, #0096ff);
+      color: white;
+      text-align: center;
+      padding: 7rem 2rem 4rem;
+      user-select: none;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0.9;
+    }
+     .hero-cta {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.8rem 2rem;
+        background-color: white;
+        color: #0077ff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, color 0.3s ease;
+     }
+     .hero-cta:hover {
+         background-color: #e0e0e0;
+         color: #005fcc;
+     }
+
+
+    #tools {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 2.5rem;
+      user-select: none;
+    }
+
+    .tool-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 2.5rem 1.8rem 2.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tool-card:hover, .tool-card:focus {
+      outline: none;
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .tool-icon {
+      font-size: 4rem;
+      color: #0077ff;
+      margin-bottom: 1.3rem;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+    .tool-card:hover .tool-icon, .tool-card:focus .tool-icon {
+      color: #005fcc;
+    }
+
+    .tool-title {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      user-select: none;
+    }
+
+    .tool-desc {
+      font-weight: 300;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+      user-select: none;
+      min-height: 60px;
+    }
+
+    #contact {
+        background-color: #f0f4f8; /* Match body background */
+        padding: 3rem 1rem;
+        text-align: center;
+        color: #333;
+    }
+    #contact h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: #0077ff;
+    }
+    #contact p {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    #contact a {
+        color: #0077ff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    #contact a:hover {
+        text-decoration: underline;
+    }
+
+
+    footer {
+      background-color: #0077ff;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-weight: 400;
+      user-select: none;
+    }
+
+    @media (max-width: 768px) { /* Adjusted breakpoint for better mobile nav */
+      nav ul {
+        flex-direction: column;
+        gap: 0; /* Remove gap for stacked links */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #0077ff; /* Keep background color */
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        display: none; /* Hide by default on mobile */
+      }
+      nav ul.show { /* Class to show menu on mobile */
+          display: flex;
+      }
+      nav ul li {
+          width: 100%;
+          text-align: center;
+          border-bottom: 1px solid rgba(255,255,255,0.2); /* Separator */
+      }
+       nav ul li:last-child {
+           border-bottom: none;
+       }
+      nav ul li a {
+          padding: 1rem; /* Increase padding for touch targets */
+      }
+
+      /* Adjust dropdowns for mobile */
+      .dropdown-content {
+          position: static; /* Stack dropdown content below parent */
+          width: 100%;
+          box-shadow: none;
+          background-color: #f1f1f1; /* Lighter background for nested items */
+          border-radius: 0;
+          left: 0; /* Reset left position for mobile */
+          overflow-x: hidden; /* Hide horizontal scroll on mobile */
+      }
+      .dropdown-content a {
+          padding-left: 30px; /* Indent dropdown items */
+          font-size: 0.95rem;
+      }
+       .about-dropdown {
+           padding: 15px 30px; /* Indent about text */
+       }
+
+      /* Add a mobile menu toggle button */
+      .menu-toggle {
+          display: block;
+          color: white;
+          font-size: 1.8rem;
+          cursor: pointer;
+      }
+       .hero h1 {
+           font-size: 2rem;
+       }
+       .hero p {
+           font-size: 1rem;
+       }
+       #tools {
+           grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+           gap: 1.8rem;
+       }
+    }
+
+     @media (min-width: 769px) { /* Hide toggle button on desktop */
+         .menu-toggle {
+             display: none;
+         }
+     }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">MegaToolKit</div>
+    <div class="menu-toggle" id="mobile-menu">☰</div> <!-- Mobile menu toggle -->
+    <ul>
+      <li class="dropdown">
+        <a href="#tools">Tools</a>
+        <div class="dropdown-content">
+          <a href="emicalculator.html">Emi Calculator</a>
+          <a href="gstcalculator.html">Gst Calculator</a>
+          <a href="taxrefund.html">Tax Refund Calculator</a>
+          <a href="sipcalculator.html">SIP Calculator</a>
+          <a href="salestaxcalculator.html">Sales Tax Calculator</a>
+          <a href="mutualfund.html">Mutual Fund Calculator</a>
+          <a href="investment.calculator.html">Investment Calculator</a>
+          <a href="agecalculator.html">Age Calculator</a>
+          <a href="zakatcal.html">Zakat Calculator</a>
+          <a href="qrcodegenerator.html">QR Code Generator</a>
+          <a href="pdfwithocr.html">PDF Editor & OCR</a>
+          <a href="passwordgenerator.html">Password Generator</a>
+          <a href="Invoicegenerator.html">Invoice Generator</a>
+          <a href="signaturegenerator.html">Signature Generator</a>
+          <a href="img.compress.html">Image Compressor</a>
+          <a href="imageresize.html">Image Resizer</a>
+          <a href="colorpallete.html">Color Pallete</a>
+          <a href="imageconventor.html">Image Converter</a>
+          <a href="unitconventor.html">Unit Converter</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="#about">About</a>
+        <div class="dropdown-content about-dropdown">
+          <strong>About This Website</strong>
+          <p>This platform provides free, reliable tools for finance, productivity, and file management. Each tool is user-friendly, optimized for speed, and 100% ad-free.</p>
+        </div>
+      </li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Explore Smart Tools for Work, Finance & Creativity</h1>
+    <p>From PDF editing to investment calculators, our toolkit offers simple, powerful utilities to make your life easier — all in one place.</p>
+    <a href="#tools" class="hero-cta">Browse All Tools</a>
+  </section>
+
+
+  <section id="tools" role="main" aria-label="Available media tools">
+  <!-- Age & Calculation Tools -->
+<!-- Age Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool1desc">
+  <a href="agecalculator.html" class="card-link" aria-label="Age Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🎂</div>
+    <h2 class="tool-title">Age Calculator</h2>
+    <p class="tool-desc" id="tool1desc">Calculate your exact age in years, months, and days.</p>
+  </a>
+</article>
+
+<!-- Color Palette Generator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool2desc">
+  <a href="colorpallete.html" class="card-link" aria-label="Color Palette Generator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🎨</div>
+    <h2 class="tool-title">Color Palette Generator</h2>
+    <p class="tool-desc" id="tool2desc">Generate beautiful color palettes for your projects.</p>
+  </a>
+</article>
+
+<!-- Zakat Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool3desc">
+  <a href="zakatcal.html" class="card-link" aria-label="Zakat Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🕌</div>
+    <h2 class="tool-title">Zakat Calculator</h2>
+    <p class="tool-desc" id="tool3desc">Calculate your Zakat with precision based on your assets.</p>
+  </a>
+</article>
+
+<!-- Signature Generator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool4desc">
+  <a href="signaturegenerator.html" class="card-link" aria-label="Signature Generator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">✒️</div>
+    <h2 class="tool-title">Signature Generator</h2>
+    <p class="tool-desc" id="tool4desc">Create stylish digital signatures with ease.</p>
+  </a>
+</article>
+
+<!-- GST Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool5desc">
+  <a href="gstcalculator.html" class="card-link" aria-label="GST Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">📊</div>
+    <h2 class="tool-title">GST Calculator</h2>
+    <p class="tool-desc" id="tool5desc">Calculate Goods & Services Tax quickly and accurately.</p>
+  </a>
+</article>
+
+<!-- EMI Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool6desc">
+  <a href="emicalculator.html" class="card-link" aria-label="EMI Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">💸</div>
+    <h2 class="tool-title">EMI Calculator</h2>
+    <p class="tool-desc" id="tool6desc">Plan your loans with a simple EMI calculator.</p>
+  </a>
+</article>
+
+<!-- Unit Converter -->
+<article tabindex="0" class="tool-card" aria-describedby="tool7desc">
+  <a href="unitconventor.html" class="card-link" aria-label="Unit Converter" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">📐</div>
+    <h2 class="tool-title">Unit Converter</h2>
+    <p class="tool-desc" id="tool7desc">Convert between different units easily and fast.</p>
+  </a>
+</article>
+
+<!-- Tax Refund Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool8desc">
+  <a href="taxrefund.html" class="card-link" aria-label="Tax Refund Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">💰</div>
+    <h2 class="tool-title">Tax Refund Calculator</h2>
+    <p class="tool-desc" id="tool8desc">Estimate your tax refund amount easily.</p>
+  </a>
+</article>
+
+<!-- SIP Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool9desc">
+  <a href="sipcalculator.html" class="card-link" aria-label="SIP Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">📈</div>
+    <h2 class="tool-title">SIP Calculator</h2>
+    <p class="tool-desc" id="tool9desc">Calculate SIP returns on your investments.</p>
+  </a>
+</article>
+
+<!-- Sales Tax Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool10desc">
+  <a href="salestaxcalculator.html" class="card-link" aria-label="Sales Tax Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🧾</div>
+    <h2 class="tool-title">Sales Tax Calculator</h2>
+    <p class="tool-desc" id="tool10desc">Compute sales tax quickly for any amount.</p>
+  </a>
+</article>
+
+<!-- QR Code Generator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool11desc">
+  <a href="qrcodegenerator.html" class="card-link" aria-label="QR Code Generator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🔳</div>
+    <h2 class="tool-title">QR Code Generator</h2>
+    <p class="tool-desc" id="tool11desc">Create custom QR codes instantly.</p>
+  </a>
+</article>
+
+<!-- PDF Editor & OCR -->
+<article tabindex="0" class="tool-card" aria-describedby="tool12desc">
+  <a href="pdfwithocr.html" class="card-link" aria-label="PDF Editor & OCR" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">✍️</div>
+    <h2 class="tool-title">PDF Editor & OCR</h2>
+    <p class="tool-desc" id="tool12desc">Edit PDFs and convert scanned documents to searchable text.</p>
+  </a>
+</article>
+
+<!-- Password Generator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool14desc">
+  <a href="passwordgenerator.html" class="card-link" aria-label="Password Generator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🔐</div>
+    <h2 class="tool-title">Password Generator</h2>
+    <p class="tool-desc" id="tool14desc">Generate strong and secure passwords instantly.</p>
+  </a>
+</article>
+
+<!-- Mutual Fund Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool15desc">
+  <a href="mutualfund.html" class="card-link" aria-label="Mutual Fund Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">💹</div>
+    <h2 class="tool-title">Mutual Fund Calculator</h2>
+    <p class="tool-desc" id="tool15desc">Estimate returns on mutual fund investments.</p>
+  </a>
+</article>
+
+<!-- Invoice Generator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool16desc">
+  <a href="Invoicegenerator.html" class="card-link" aria-label="Invoice Generator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🧾</div>
+    <h2 class="tool-title">Invoice Generator</h2>
+    <p class="tool-desc" id="tool16desc">Create professional invoices for your business.</p>
+  </a>
+</article>
+
+<!-- Investment Calculator -->
+<article tabindex="0" class="tool-card" aria-describedby="tool17desc">
+  <a href="investment.calculator.html" class="card-link" aria-label="Investment Calculator" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">📉</div>
+    <h2 class="tool-title">Investment Calculator</h2>
+    <p class="tool-desc" id="tool17desc">Analyze your investment growth over time.</p>
+  </a>
+</article>
+
+<!-- Image Compressor -->
+<article tabindex="0" class="tool-card" aria-describedby="tool18desc">
+  <a href="img.compress.html" class="card-link" aria-label="Image Compressor" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🗜️</div>
+    <h2 class="tool-title">Image Compressor</h2>
+    <p class="tool-desc" id="tool18desc">Reduce image file sizes without losing quality.</p>
+  </a>
+</article>
+
+<!-- Image Resizer -->
+<article tabindex="0" class="tool-card" aria-describedby="tool19desc">
+  <a href="imageresize.html" class="card-link" aria-label="Image Resizer" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">📏</div>
+    <h2 class="tool-title">Image Resizer</h2>
+    <p class="tool-desc" id="tool19desc">Resize images to custom dimensions quickly.</p>
+  </a>
+</article>
+
+<!-- Image Converter -->
+<article tabindex="0" class="tool-card" aria-describedby="tool20desc">
+  <a href="imageconventor.html" class="card-link" aria-label="Image Converter" style="display: block; color: inherit; text-decoration: none;">
+    <div class="tool-icon" aria-hidden="true">🔄</div>
+    <h2 class="tool-title">Image Converter</h2>
+    <p class="tool-desc" id="tool20desc">Convert images between different formats.</p>
+  </a>
+</article>
+  </section>
+
+  <section id="contact" role="contentinfo" aria-label="Contact Information">
+      <h2>Contact Us</h2>
+      <p>Email: <a href="mailto:saba@tecsaro.com">saba@tecsaro.com</a></p>
+      <p><strong>Why Contact Us?</strong></p>
+      <p>Reach out for support, tool suggestions, bug reports, or collaborations. We value your feedback and strive to improve.</p>
+  </section>
+
+
+  <footer>
+    &copy; 2025 MegaToolKit. All rights reserved.
+  </footer>
+
+  <script>
+      // Basic JavaScript for mobile menu toggle
+      const mobileMenu = document.getElementById('mobile-menu');
+      const navUl = document.querySelector('nav ul');
+
+      mobileMenu.addEventListener('click', () => {
+          navUl.classList.toggle('show');
+      });
+
+      // Optional: Close menu when a link is clicked (for single-page navigation)
+      document.querySelectorAll('nav ul li a').forEach(link => {
+          link.addEventListener('click', () => {
+              if (navUl.classList.contains('show')) {
+                  navUl.classList.remove('show');
+              }
+          });
+      });
+  </script>
+</body>
+</html>
+

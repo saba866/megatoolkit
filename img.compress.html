@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Compress images (JPG, PNG, SVG, GIF) online for free. Reduce file size while maintaining quality with our easy-to-use image compression tool." />
+  <meta name="keywords" content="image compressor, compress JPG, compress PNG, compress SVG, compress GIF, reduce image file size, online image compressor, free image compression tool" />
+  <meta name="author" content="YourSiteName" />
+  <meta name="robots" content="index, follow" />
+  <title>Free Online Image Compressor | YourSiteName</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --text-color: #1f2937;
+        --border-color: #e5e7eb;
+        --background-soft: #f8fafc;
+        --background-body: #f4f7f9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-body);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin: 1.5rem 0 1rem;
+        color: var(--text-color);
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+    }
+
+    .about-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--background-soft);
+        border-radius: 8px;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .form-group {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-button {
+      cursor: pointer;
+      background: var(--primary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+      display: inline-block; /* Make label behave like a button */
+    }
+
+    .upload-button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+      -webkit-appearance: none;
+      background: transparent;
+      margin-top: 0.5rem;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: var(--primary-color);
+      border-radius: 8px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: var(--primary-hover);
+      cursor: pointer;
+      margin-top: -7px;
+      box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+      transition: background-color 0.3s ease;
+    }
+    input[type="range"]:focus::-webkit-slider-thumb {
+      background: #1a73e8; /* Slightly different hover for focus */
+      box-shadow: 0 0 14px rgba(37, 99, 235, 0.6);
+    }
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: var(--primary-color);
+      border-radius: 8px;
+    }
+    input[type="range"]::-moz-range-thumb {
+      border: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: var(--primary-hover);
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+      transition: background-color 0.3s ease;
+    }
+
+    button.compress-btn {
+      background: var(--primary-color);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.75rem 2rem;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      align-self: center;
+      min-width: 180px;
+      margin-top: 1rem;
+    }
+    button.compress-btn:disabled {
+      cursor: not-allowed;
+      background: #cccccc;
+      box-shadow: none;
+      color: #666666;
+      transform: none;
+    }
+    button.compress-btn:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .output-section {
+      margin-top: 24px;
+      padding: 24px;
+      background: var(--background-soft);
+      border-radius: 8px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .file-result {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .file-result:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .file-info {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .file-info strong {
+        color: var(--text-color);
+    }
+
+    .preview-container {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .file-preview {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+    }
+    /* Removed video specific styles */
+    img.file-preview {
+      max-height: 380px;
+      object-fit: contain;
+    }
+
+    .download-link {
+        display: inline-block;
+        background: #10b981; /* Green color */
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .download-link:hover {
+        background: #059669;
+        transform: translateY(-1px);
+    }
+
+
+    details {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--background-soft);
+    }
+
+    summary {
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.5rem 0;
+        color: var(--text-color);
+    }
+
+    details p {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Loading spinner */
+    .spinner {
+      margin: 20px auto;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .card {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      h3 {
+        font-size: 1.1rem;
+      }
+      .upload-button, button.compress-btn {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Back to Home
+            </a>
+        </div>
+        <div class="card">
+            <h1>Image Compressor</h1>
+
+            <section class="about-section">
+                <h2>About This Tool</h2>
+                <p>Easily reduce the file size of your images (JPG, PNG, SVG, GIF) online. Our tool helps you optimize your images for faster loading times on websites, easier sharing, and saving storage space, all while aiming to maintain the best possible quality.</p>
+            </section>
+
+            <section class="form-section" aria-label="File upload and compression settings">
+                <div class="form-group">
+                    <label for="fileInput" class="upload-button">Select Images</label>
+                    <input type="file" id="fileInput" accept="image/*" multiple aria-multiselectable="true" />
+                </div>
+
+                <div class="form-group">
+                    <label for="compressionRange">Compression Level (<span id="compressionValue">75</span>%)</label>
+                    <input type="range" id="compressionRange" min="10" max="95" value="75" step="1" aria-valuenow="75" aria-valuemin="10" aria-valuemax="95" aria-label="Select compression level">
+                </div>
+
+                <button class="compress-btn" id="compressBtn" disabled>Compress Files</button>
+                <div id="loadingIndicator" aria-live="polite" style="display:none;">
+                    <div class="spinner" role="status" aria-label="Compressing files"></div>
+                </div>
+            </section>
+
+            <section class="output-section" aria-label="Compression results" id="outputSection" style="display:none;">
+                <h3>Compression Results</h3>
+                <div id="results"></div>
+                <div id="previewContainer"></div>
+            </section>
+        </div>
+
+        <div class="card">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What image file types are supported?</summary>
+                <p>We support common image formats like JPG, PNG, SVG, and GIF.</p>
+            </details>
+            <details>
+                <summary>How does the compression level work?</summary>
+                <p>The compression level (quality) slider allows you to balance file size reduction with visual quality. A lower percentage means higher compression (smaller file size) but potentially lower quality, while a higher percentage means less compression (larger file size) but better quality.</p>
+            </details>
+            <details>
+                <summary>Is my data safe?</summary>
+                <p>Yes, your files are processed directly in your browser. They are not uploaded to our servers, ensuring your privacy and data security.</p>
+            </details>
+            <details>
+                <summary>Can I compress multiple files at once?</summary>
+                <p>Yes, you can select and compress multiple image files simultaneously.</p>
+            </details>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What image file types are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We support common image formats like JPG, PNG, SVG, and GIF."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How does the compression level work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The compression level (quality) slider allows you to balance file size reduction with visual quality. A lower percentage means higher compression (smaller file size) but potentially lower quality, while a higher percentage means less compression (larger file size) but better quality."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is my data safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, your files are processed directly in your browser. They are not uploaded to our servers, ensuring your privacy and data security."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I compress multiple files at once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can select and compress multiple image files simultaneously."
+        }
+      }]
+    }
+    </script>
+
+    <script>
+      (() => {
+        const fileInput = document.getElementById('fileInput');
+        const compressBtn = document.getElementById('compressBtn');
+        const compressionRange = document.getElementById('compressionRange');
+        const compressionValue = document.getElementById('compressionValue');
+        const results = document.getElementById('results');
+        const previewContainer = document.getElementById('previewContainer');
+        const outputSection = document.getElementById('outputSection');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        let filesToCompress = [];
+
+        compressionRange.addEventListener('input', () => {
+          compressionValue.textContent = compressionRange.value;
+        });
+
+        fileInput.addEventListener('change', (e) => {
+          filesToCompress = Array.from(e.target.files);
+          compressBtn.disabled = filesToCompress.length === 0;
+          clearOutput();
+        });
+
+        compressBtn.addEventListener('click', async () => {
+          if (filesToCompress.length === 0) return;
+
+          compressBtn.disabled = true;
+          loadingIndicator.style.display = 'block';
+          clearOutput();
+          outputSection.style.display = 'block'; // Show output section immediately
+
+          for(let i = 0; i < filesToCompress.length; i++) {
+            const file = filesToCompress[i];
+            // Display processing message for each file
+            displayMessage(`Processing "${file.name}"...`);
+
+            if (file.type.startsWith('image/')) {
+              if (file.type === 'image/svg+xml') {
+                await compressSVG(file);
+              } else if (file.type === 'image/gif') {
+                // Convert GIF to WebP for better compression or just re-encode as JPEG with canvas.
+                await compressGIFasJPEG(file, parseInt(compressionRange.value));
+              } else {
+                // JPG, PNG, WebP, other images handled here
+                await compressImage(file, parseInt(compressionRange.value));
+              }
+            } else {
+              // Handle non-image files selected despite accept="image/*"
+              displayMessage(`Skipping unsupported file type: ${file.name}`, true);
+            }
+          }
+
+          loadingIndicator.style.display = 'none';
+          compressBtn.disabled = false;
+        });
+
+        function clearOutput() {
+          results.innerHTML = '';
+          previewContainer.innerHTML = '';
+          // outputSection.style.display = 'none'; // Keep output section visible during processing
+        }
+
+        function displayMessage(msg, isError=false) {
+          const p = document.createElement('p');
+          p.textContent = msg;
+          p.style.color = isError ? '#dc2626' : '#059669'; /* Use Tailwind red/green */
+          p.style.marginBottom = '10px';
+          results.appendChild(p);
+        }
+
+        // Image compression using canvas (JPG, PNG, WebP)
+        function compressImage(file, qualityPercent) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = event => {
+              const img = new Image();
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Optional: resize image for large files to speed compression
+                const maxDimension = 1920; // 2K max dimension
+                if (width > maxDimension || height > maxDimension) {
+                  if (width > height) {
+                    height *= maxDimension / width;
+                    width = maxDimension;
+                  } else {
+                    width *= maxDimension / height;
+                    height = maxDimension;
+                  }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Compress image to JPEG with chosen quality (even for PNGs, converted to JPEG here for better compression)
+                canvas.toBlob(blob => {
+                  displayCompressionResult(file, blob, 'image/jpeg', URL.createObjectURL(blob));
+                  resolve();
+                }, 'image/jpeg', qualityPercent / 100);
+              };
+              img.onerror = () => {
+                displayMessage(`Error loading image ${file.name}`, true);
+                resolve();
+              };
+              img.src = event.target.result;
+            };
+            reader.onerror = () => {
+              displayMessage(`Error reading file ${file.name}`, true);
+              resolve();
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+
+        // Compress GIF by rendering first frame on canvas and re-encoding as JPEG (lossy)
+        function compressGIFasJPEG(file, qualityPercent) {
+          return new Promise((resolve, reject) => {
+            // GIF rendering in canvas will only get first frame
+            const reader = new FileReader();
+            reader.onload = event => {
+              const img = new Image();
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const width = img.width;
+                const height = img.height;
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                canvas.toBlob(blob => {
+                  displayCompressionResult(file, blob, 'image/jpeg', URL.createObjectURL(blob));
+                  resolve();
+                }, 'image/jpeg', qualityPercent / 100);
+              };
+              img.onerror = () => {
+                displayMessage(`Error loading GIF ${file.name}`, true);
+                resolve();
+              };
+              img.src = event.target.result;
+            };
+            reader.onerror = () => {
+              displayMessage(`Error reading GIF ${file.name}`, true);
+              resolve();
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+
+        // SVG compression by minifying XML content - basic whitespace and comment removal
+        function compressSVG(file) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = event => {
+              try {
+                let svgText = event.target.result;
+                // Remove XML comments
+                svgText = svgText.replace(/<!--[\s\S]*?-->/g, '');
+                // Remove redundant whitespace between tags
+                // This regex removes one or more whitespace characters between > and <
+                svgText = svgText.replace(/>\s+</g, '><');
+                // Remove leading/trailing whitespace
+                svgText = svgText.trim();
+
+                const encoder = new TextEncoder();
+                const compressedData = encoder.encode(svgText);
+                const blob = new Blob([compressedData], {type: 'image/svg+xml'});
+
+                displayCompressionResult(file, blob, 'image/svg+xml', URL.createObjectURL(blob));
+                resolve();
+              } catch (e) {
+                displayMessage(`Error compressing SVG ${file.name}: ${e.message}`, true);
+                resolve();
+              }
+            };
+            reader.onerror = () => {
+              displayMessage(`Error reading SVG ${file.name}`, true);
+              resolve();
+            };
+            reader.readAsText(file);
+          });
+        }
+
+        // Removed video compression function
+
+        // Display compression info, preview and download link
+        function displayCompressionResult(originalFile, compressedBlob, mimeType, previewSrc=null) {
+          const originalSizeKB = (originalFile.size / 1024).toFixed(2);
+          const compressedSizeKB = (compressedBlob.size / 1024).toFixed(2);
+          let savingsPercent = 0;
+          if (originalFile.size > 0) {
+            savingsPercent = (((originalFile.size - compressedBlob.size) / originalFile.size) * 100).toFixed(1);
+            if (savingsPercent < 0) savingsPercent = 0; // Avoid negative savings display
+          }
+
+          const fileResultDiv = document.createElement('div');
+          fileResultDiv.className = 'file-result';
+
+          // Info text
+          const infoDiv = document.createElement('div');
+          infoDiv.className = 'file-info';
+          infoDiv.innerHTML = `<strong>${originalFile.name}</strong><br>
+            Original size: ${originalSizeKB} KB<br>
+            Compressed size: ${compressedSizeKB} KB<br>
+            Size reduced: ${savingsPercent}%`;
+
+          fileResultDiv.appendChild(infoDiv);
+
+          // Preview
+          if (mimeType.startsWith('image')) {
+            const imgPreview = document.createElement('img');
+            imgPreview.className = 'file-preview';
+            imgPreview.alt = `Preview of compressed ${originalFile.name}`;
+            imgPreview.src = previewSrc ? previewSrc : URL.createObjectURL(compressedBlob);
+            fileResultDiv.appendChild(imgPreview);
+
+          }
+          // Removed video preview handling
+
+          // Download link
+          const downloadLink = document.createElement('a');
+          const downloadUrl = URL.createObjectURL(compressedBlob);
+          downloadLink.href = downloadUrl;
+          let ext = originalFile.name.split('.').pop();
+          let baseName = originalFile.name.slice(0, originalFile.name.lastIndexOf('.'));
+          if (originalFile.type === 'image/gif' && mimeType === 'image/jpeg') {
+            ext = 'jpg'; // Change extension if GIF is converted to JPG
+          } else if (mimeType === 'image/svg+xml') {
+             ext = 'svg'; // Ensure SVG keeps .svg extension
+          } else if (mimeType === 'image/jpeg') {
+             ext = 'jpg'; // Ensure JPG/PNG converted to JPG gets .jpg
+          } else if (mimeType === 'image/png') {
+             ext = 'png'; // Keep PNG if not converted (though current logic converts PNG to JPG)
+          }
+
+
+          downloadLink.download = baseName + '-compressed.' + ext;
+          downloadLink.textContent = 'Download Compressed File';
+          downloadLink.className = 'download-link';
+          downloadLink.rel = 'noopener noreferrer';
+
+          downloadLink.addEventListener('click', () => {
+            // Revoke Object URL after click to release memory
+            setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+          });
+
+          fileResultDiv.appendChild(downloadLink);
+          results.appendChild(fileResultDiv); // Append each file result to the results div
+        }
+      })();
+    </script>
+</body>
+</html>
+

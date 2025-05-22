@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tax Refund Estimator - Calculate Your Expected Tax Refund</title>
+    <meta name="description" content="Estimate your tax refund based on income, tax paid, deductions, and filing status. User-friendly and informative tool." />
+    <meta name="keywords" content="Tax Refund Estimator, Tax Calculator, Income Tax, Tax Filing" />
+    <meta name="author" content="Your Name" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tax Refund Estimator - Calculate Your Expected Tax Refund" />
+    <meta property="og:description" content="Estimate your tax refund based on income, tax paid, deductions, and filing status. User-friendly and informative tool." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourwebsite.com/tax-refund-estimator" />
+    <meta property="og:image" content="https://yourwebsite.com/assets/tax-refund-estimator-image.png" />
+    
+    <style>
+        /* Reset and base styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+             background: #f8f9fa; 
+            border-radius: 4px;
+            display: none;
+        }
+        .result-item {
+            margin: 5px 0;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        /* Responsive styles */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+  
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+
+        <h1>Tax Refund Estimator</h1>
+        <label for="annual-income">Annual Income (₹)</label>
+        <input type="number" id="annual-income" placeholder="Enter your annual income" min="0" step="any" />
+
+        <label for="tax-paid">Tax Already Paid (₹)</label>
+        <input type="number" id="tax-paid" placeholder="Enter tax already paid" min="0" step="any" />
+
+        <label for="deductions">Applicable Deductions and Exemptions (₹)</label>
+        <input type="number" id="deductions" placeholder="Enter total deductions" min="0" step="any" />
+
+        <label for="filing-status">Filing Status</label>
+        <select id="filing-status">
+            <option value="individual">Individual</option>
+            <option value="joint">Joint</option>
+        </select>
+
+        <button id="calculate-button" type="button">Calculate Refund</button>
+        <div class="results" id="results" role="region" aria-live="polite" aria-atomic="true">
+            <h2>Calculation Summary</h2>
+            <p class="result-item">Estimated Tax Liability: ₹<span id="tax-liability">0.00</span></p>
+            <p class="result-item">Expected Tax Refund: ₹<span id="tax-refund">0.00</span></p>
+            <p class="result-item">Breakdown:</p>
+            <ul id="breakdown-list"></ul>
+        </div>
+        <p class="error" id="error-message" role="alert" aria-live="assertive"></p>
+
+        <!-- REMOVED: Advertisement section -->
+
+        <section class="about-section">
+            <h2>About This Tool</h2>
+            <p>This tax refund estimator helps you calculate your expected tax refund based on your income, tax already paid, deductions, and filing status. It provides a quick estimate to help with financial planning.</p>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>How accurate is this tax refund estimator?</summary>
+                <p>This provides an estimate based on standard tax rates. Your actual refund may vary based on specific tax laws and additional factors.</p>
+            </details>
+            <details>
+                <summary>What deductions can I include?</summary>
+                <p>Include all applicable deductions like HRA, LTA, 80C investments, medical insurance, and other eligible deductions.</p>
+            </details>
+            <details>
+                <summary>When will I receive my tax refund?</summary>
+                <p>Processing times vary but typically take 3-6 weeks after filing your return.</p>
+            </details>
+        </section>
+    </div>
+
+    <script>
+        // Add event listener on DOM load to prevent any timing issues
+        document.addEventListener('DOMContentLoaded', function () {
+            const calculateBtn = document.getElementById('calculate-button');
+
+            calculateBtn.addEventListener('click', function () {
+                const annualIncome = parseFloat(document.getElementById('annual-income').value);
+                const taxPaid = parseFloat(document.getElementById('tax-paid').value);
+                const deductions = parseFloat(document.getElementById('deductions').value);
+                const filingStatus = document.getElementById('filing-status').value;
+
+                const errorMessage = document.getElementById('error-message');
+                const results = document.getElementById('results');
+                const taxLiability = document.getElementById('tax-liability');
+                const taxRefund = document.getElementById('tax-refund');
+                const breakdownList = document.getElementById('breakdown-list');
+
+                // Reset messages and UI
+                errorMessage.textContent = '';
+                results.style.display = 'none';
+
+                // Validate inputs
+                if (isNaN(annualIncome) || annualIncome < 0) {
+                    errorMessage.textContent = 'Please enter a valid annual income (0 or greater).';
+                    return;
+                }
+                if (isNaN(taxPaid) || taxPaid < 0) {
+                    errorMessage.textContent = 'Please enter a valid tax already paid amount (0 or greater).';
+                    return;
+                }
+                if (isNaN(deductions) || deductions < 0) {
+                    errorMessage.textContent = 'Please enter a valid deductions amount (0 or greater).';
+                    return;
+                }
+
+                // Calculate taxable income
+                const taxableIncome = annualIncome - deductions;
+
+                if (taxableIncome <= 0) {
+                    errorMessage.textContent = 'Taxable income must be greater than zero to calculate refund.';
+                    return;
+                }
+
+                // Define tax slabs for simplicity - Can be extended as per country specifics
+                // Example: India FY 2023-24 slabs for individual & joint filing assumed flat 20%
+                let taxRate = 0.20; // placeholder flat rate
+
+                // Could refine tax rate based on filing status or slabs here
+
+                // Estimated tax liability
+                const estimatedTaxLiability = taxableIncome * taxRate;
+
+                // Expected refund or additional tax
+                const expectedRefund = taxPaid - estimatedTaxLiability;
+
+                taxLiability.textContent = estimatedTaxLiability.toFixed(2);
+                taxRefund.textContent = expectedRefund.toFixed(2);
+
+                breakdownList.innerHTML = `
+                    <li>Annual Income: ₹${annualIncome.toFixed(2)}</li>
+                    <li>Deductions and Exemptions: -₹${deductions.toFixed(2)}</li>
+                    <li>Taxable Income: ₹${taxableIncome.toFixed(2)}</li>
+                    <li>Estimated Tax Liability (${(taxRate*100).toFixed(1)}%): ₹${estimatedTaxLiability.toFixed(2)}</li>
+                    <li>Tax Already Paid: -₹${taxPaid.toFixed(2)}</li>
+                    <li><strong>Expected Refund / Payable: ₹${expectedRefund.toFixed(2)}</strong></li>
+                `;
+
+                results.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
+

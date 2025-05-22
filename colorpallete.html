@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Color Palette Generator | Brand Color Tool</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Design your own custom color palette for branding and UI themes. Easily preview, edit, and export your color combinations." />
+  <meta name="keywords" content="color palette, color picker, branding colors, palette generator, CSS color tool, export palette" />
+  <meta name="author" content="Your Name" /> <!-- Update with your name -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="Advanced Color Palette Generator" />
+  <meta property="og:description" content="Build and export your perfect brand color palette. Optimized for designers, developers, and marketers." />
+  <meta property="og:image" content="https://yourwebsite.com/assets/palette-preview.jpg" /> <!-- Update with actual image path -->
+  <meta property="og:url" content="https://yourwebsite.com/color-palette-generator" /> <!-- Update with actual URL -->
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa; /* Light neutral background */
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-top: 1.5rem;
+    }
+    .info-section, .about-section, .faq-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background-color: #e9ecef;
+      border-radius: 8px;
+    }
+    .info-section p, .about-section p {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="color"] {
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+     .form-group input[type="color"] {
+         padding: 6px; /* Adjust padding for color input */
+         height: 45px; /* Match height with text input */
+     }
+    .form-group input[type="text"]:focus,
+    .form-group input[type="color"]:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      outline: none;
+    }
+    .add-color-inputs {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    .add-color-inputs .form-group {
+        flex-grow: 1;
+    }
+    .add-color-inputs button {
+        flex-shrink: 0;
+        padding: 12px 20px;
+        height: 45px; /* Match height with inputs */
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+    }
+    button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .palette-section {
+        margin-top: 2rem;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .color-box {
+      background-color: #eee; /* Default background */
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 120px;
+      position: relative;
+      overflow: hidden; /* For rounded corners */
+    }
+    .color-box .color-display {
+        width: 100%;
+        height: 60px;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    .color-box .color-values {
+        font-size: 0.9rem;
+        color: #555; /* Default text color */
+    }
+    .color-box .copy-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 4px;
+        padding: 3px 6px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+     .color-box:hover .copy-button {
+         opacity: 1;
+     }
+    .color-box .copy-button:hover {
+        background: rgba(220, 220, 220, 0.9);
+    }
+
+    .faq-section details {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .faq-section summary {
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      color: #007bff;
+    }
+    .faq-section details[open] summary {
+      color: #0056b3;
+    }
+    .faq-section details div {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #dee2e6;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #dee2e6;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 1.5rem;
+            margin: 1rem auto;
+        }
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="color"],
+        .add-color-inputs button {
+            padding: 10px;
+            height: 40px;
+        }
+         .form-group input[type="color"] {
+             padding: 6px;
+         }
+        .add-color-inputs {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .add-color-inputs button {
+            width: 100%;
+        }
+        .palette {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.8rem;
+        }
+        .color-box {
+            min-height: 100px;
+            padding: 0.8rem;
+        }
+         .color-box .color-display {
+             height: 50px;
+         }
+        .color-box .color-values {
+            font-size: 0.8rem;
+        }
+        .faq-section details {
+            padding: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 1rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+        }
+        .info-section, .about-section, .faq-section {
+            padding: 1rem;
+        }
+        .form-section {
+            gap: 1rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="color"],
+        .add-color-inputs button {
+            font-size: 0.9rem;
+        }
+         .form-group input[type="color"] {
+             padding: 4px;
+         }
+        .palette {
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.6rem;
+        }
+        .color-box {
+            min-height: 80px;
+            padding: 0.6rem;
+        }
+         .color-box .color-display {
+             height: 40px;
+         }
+        .color-box .color-values {
+            font-size: 0.7rem;
+        }
+        .faq-section details {
+            padding: 0.6rem;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <!-- Back Button -->
+      <div style="margin-bottom: 20px;">
+          <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+              <span style="margin-right: 5px;">←</span> Back to Home
+          </a>
+      </div>
+    <h1>Advanced Color Palette Generator</h1>
+    <div class="info-section">
+      <p>Create and manage custom color palettes for your design projects. Easily add colors, preview combinations, and get HEX/RGB values.</p>
+    </div>
+
+    <div class="form-section">
+        <div class="add-color-inputs">
+            <div class="form-group">
+                <label for="colorPicker">Choose Color:</label>
+                <input type="color" id="colorPicker" value="#007bff">
+            </div>
+             <div class="form-group">
+                <label for="colorCodeInput">Or Enter HEX/RGB:</label>
+                <input type="text" id="colorCodeInput" placeholder="#007bff or rgb(0, 123, 255)">
+            </div>
+            <button id="addColorBtn">Add Color</button>
+        </div>
+    </div>
+
+    <div class="palette-section">
+        <h2>Your Palette</h2>
+        <div id="palette" class="palette">
+            <!-- Color boxes will be added here by JavaScript -->
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>About This Tool</h2>
+        <p>This tool allows you to build and visualize custom color palettes. Whether you're designing a website, creating a brand identity, or working on any visual project, a well-defined color palette is crucial. Simply add colors using the color picker or by entering HEX/RGB values, and see them appear in your palette. You can easily copy the color codes for use in your projects.</p>
+        <p>It's designed to be simple, fast, and effective for designers, developers, and anyone needing to manage color schemes.</p>
+    </div>
+
+    <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details>
+            <summary>What is a color palette?</summary>
+            <div>A color palette is a collection of colors used in a design project. It helps maintain consistency and harmony across different elements of a design.</div>
+        </details>
+        <details>
+            <summary>How do I use this tool?</summary>
+            <div>You can add colors to your palette by using the color picker or by typing in a color code (HEX or RGB) into the input field and clicking "Add Color". The colors will appear below.</div>
+        </details>
+        <details>
+            <summary>Can I copy the colors?</summary>
+            <div>Yes, you can click the "Copy" button that appears on each color box in the palette to copy its HEX value to your clipboard.</div>
+        </details>
+        <details>
+            <summary>Is this tool free to use?</summary>
+            <div>Yes, this color palette generator is completely free to use.</div>
+        </details>
+         <details>
+            <summary>How do I remove a color?</summary>
+            <div>(Note: This feature is not yet implemented in the provided code. You would typically add a remove button or click action to each color box.)</div>
+        </details>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const colorPicker = document.getElementById('colorPicker');
+    const colorCodeInput = document.getElementById('colorCodeInput');
+    const addColorBtn = document.getElementById('addColorBtn');
+    const paletteDiv = document.getElementById('palette');
+
+    // Sync color picker and text input
+    colorPicker.addEventListener('input', () => {
+        colorCodeInput.value = colorPicker.value;
+    });
+
+    colorCodeInput.addEventListener('input', () => {
+        // Basic validation/syncing - could be more robust
+        if (colorCodeInput.value.startsWith('#') && colorCodeInput.value.length === 7) {
+             colorPicker.value = colorCodeInput.value;
+        }
+         // Add more robust validation for HEX/RGB if needed
+    });
+
+
+    addColorBtn.addEventListener('click', () => {
+      let colorValue = colorCodeInput.value.trim();
+
+      if (!colorValue) {
+        alert('Please enter or select a color.');
+        return;
+      }
+
+      // Basic validation for hex or rgb format
+      const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+      const rgbRegex = /^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/;
+
+      if (!hexRegex.test(colorValue) && !rgbRegex.test(colorValue)) {
+           alert('Please enter a valid HEX (e.g., #RRGGBB) or RGB (e.g., rgb(255, 0, 0)) color code.');
+           return;
+      }
+
+      // Convert RGB to HEX if necessary for consistent display/copying
+      if (rgbRegex.test(colorValue)) {
+          colorValue = rgbToHex(colorValue);
+      }
+
+
+      addColorToPalette(colorValue);
+
+      // Clear input after adding
+      colorCodeInput.value = '';
+      colorPicker.value = '#000000'; // Reset picker
+    });
+
+    function addColorToPalette(hexColor) {
+      const colorBox = document.createElement('div');
+      colorBox.classList.add('color-box');
+
+      const colorDisplay = document.createElement('div');
+      colorDisplay.classList.add('color-display');
+      colorDisplay.style.backgroundColor = hexColor;
+
+      const colorValues = document.createElement('div');
+      colorValues.classList.add('color-values');
+      colorValues.textContent = hexColor.toUpperCase(); // Display HEX
+
+      const copyButton = document.createElement('button');
+      copyButton.classList.add('copy-button');
+      copyButton.textContent = 'Copy';
+      copyButton.addEventListener('click', () => {
+          navigator.clipboard.writeText(hexColor.toUpperCase()).then(() => {
+              // Optional: Provide visual feedback
+              copyButton.textContent = 'Copied!';
+              setTimeout(() => { copyButton.textContent = 'Copy'; }, 1500);
+          }).catch(err => {
+              console.error('Failed to copy: ', err);
+          });
+      });
+
+      colorBox.appendChild(colorDisplay);
+      colorBox.appendChild(colorValues);
+      colorBox.appendChild(copyButton);
+
+      paletteDiv.appendChild(colorBox);
+    }
+
+    // Helper function to convert RGB string to HEX
+    function rgbToHex(rgb) {
+        // Choose the first match from the regex
+        const result = /rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)/.exec(rgb);
+        if (!result) return rgb; // Return original if regex fails
+
+        const r = parseInt(result[1]);
+        const g = parseInt(result[2]);
+        const b = parseInt(result[3]);
+
+        // Ensure values are within 0-255
+        if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+            return rgb; // Return original if values are out of range
+        }
+
+        const toHex = (c) => {
+            const hex = c.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        };
+
+        return "#" + toHex(r) + toHex(g) + toHex(b);
+    }
+
+    // Initial color (optional)
+    // addColorToPalette('#17a2b8');
+    // addColorToPalette('#28a745');
+    // addColorToPalette('#dc3545');
+
+  </script>
+</body>
+</html>
+
+

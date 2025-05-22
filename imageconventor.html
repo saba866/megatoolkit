@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Convert images between JPG, PNG, PDF, and DOCX formats online for free. Easy-to-use image file converter with live preview." />
+    <meta name="keywords" content="image converter, convert JPG, convert PNG, convert to PDF, convert to DOCX, online image converter, free image converter" />
+    <meta name="author" content="YourSiteName" />
+    <meta name="robots" content="index, follow" />
+    <title>Free Online Image Converter | YourSiteName</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --background-soft: #f8fafc;
+            --background-body: #f4f7f9;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-body);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .about-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--background-soft);
+            border-radius: 8px;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            text-align: center;
+        }
+
+        .form-group {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-button {
+            cursor: pointer;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+            display: inline-block; /* Make label behave like a button */
+        }
+
+        .upload-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .drop-area {
+            border: 2px dashed var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .drop-area.dragover {
+            background-color: var(--background-soft);
+            border-color: var(--primary-hover);
+        }
+
+        .preview-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .image-container {
+            margin: 20px auto;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            background: var(--background-soft);
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            user-select: none;
+            -webkit-user-drag: none;
+            margin-top: 1rem;
+        }
+
+        .image-container p {
+            color: var(--text-color);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1rem;
+            align-items: center;
+        }
+
+        .controls button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            min-width: 140px;
+            user-select: none;
+        }
+        .controls button:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        .controls button:disabled {
+            background: #cccccc;
+            box-shadow: none;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .download-link {
+            display: inline-block;
+            background: #10b981; /* Green color */
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .download-link:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+
+        details {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--background-soft);
+        }
+
+        summary {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            color: var(--text-color);
+        }
+
+        details p {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .card {
+                padding: 16px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            h3 {
+                font-size: 1.1rem;
+            }
+            .upload-button, .controls button, .download-link {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+                min-width: 120px;
+            }
+            .drop-area {
+                width: 95%;
+            }
+            .controls {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+        <div class="card">
+            <h1>Image Converter</h1>
+
+            <section class="about-section">
+                <h2>About This Tool</h2>
+                <p>Convert your images between popular formats like JPG, PNG, PDF, and DOCX quickly and easily online. Simply upload your image, choose the desired output format, and download the converted file. Your files are processed securely in your browser.</p>
+            </section>
+
+            <section class="form-section" aria-label="Image upload and conversion options">
+                <div class="form-group">
+                    <label for="fileInput" class="upload-button">Select Image (JPG or PNG)</label>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png" aria-label="Upload image" />
+                </div>
+                <div id="dropArea" class="drop-area" tabindex="0" role="button" aria-label="Drag and drop your image here or click to upload">
+                    Drag &amp; Drop your image here or click to select file
+                </div>
+
+                <div class="image-container" aria-label="Image Preview">
+                    <h3>Image Preview</h3>
+                    <img id="imagePreview" alt="Uploaded image preview" style="display:none;" />
+                    <p id="noImageText" style="color:#666;">No image loaded</p>
+                </div>
+
+                <div class="controls">
+                    <button id="convertToJPG" disabled>Convert to JPG</button>
+                    <button id="convertToPNG" disabled>Convert to PNG</button>
+                    <button id="convertToPDF" disabled>Convert to PDF</button>
+                    <button id="convertToDOCX" disabled>Convert to DOCX</button>
+                    <a id="downloadLink" class="download-link" style="display:none;"></a>
+                </div>
+            </section>
+        </div>
+
+        <div class="card">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What image file types can I upload?</summary>
+                <p>Currently, you can upload JPG and PNG image files.</p>
+            </details>
+            <details>
+                <summary>What formats can I convert to?</summary>
+                <p>You can convert your uploaded JPG or PNG images to JPG, PNG, PDF, and DOCX formats.</p>
+            </details>
+            <details>
+                <summary>How does the conversion work?</summary>
+                <p>The image is loaded into your browser, and the conversion is performed using JavaScript and browser APIs (like Canvas, jsPDF, and docx). The converted file is then generated for download directly from your browser.</p>
+            </details>
+            <details>
+                <summary>Is my data safe?</summary>
+                <p>Yes, your files are processed entirely within your browser. They are not uploaded to any server, ensuring your privacy and data security.</p>
+            </details>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What image file types can I upload?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Currently, you can upload JPG and PNG image files."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What formats can I convert to?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can convert your uploaded JPG or PNG images to JPG, PNG, PDF, and DOCX formats."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How does the conversion work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The image is loaded into your browser, and the conversion is performed using JavaScript and browser APIs (like Canvas, jsPDF, and docx). The converted file is then generated for download directly from your browser."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is my data safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, your files are processed entirely within your browser. They are not uploaded to any server, ensuring your privacy and data security."
+        }
+      }]
+    }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/docx@7.3.0/build/index.js"></script>
+    <script>
+        (function() {
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const imagePreview = document.getElementById('imagePreview');
+            const noImageText = document.getElementById('noImageText');
+            const downloadLink = document.getElementById('downloadLink');
+            const convertToJPG = document.getElementById('convertToJPG');
+            const convertToPNG = document.getElementById('convertToPNG');
+            const convertToPDF = document.getElementById('convertToPDF');
+            const convertToDOCX = document.getElementById('convertToDOCX');
+            let currentImage = null;
+            let convertedBlobUrl = null;
+            let originalFileType = '';
+
+            function resetUI() {
+                imagePreview.style.display = 'none';
+                noImageText.style.display = 'block';
+                convertToJPG.disabled = true;
+                convertToPNG.disabled = true;
+                convertToPDF.disabled = true;
+                convertToDOCX.disabled = true;
+                downloadLink.style.display = 'none';
+                if (convertedBlobUrl) {
+                    URL.revokeObjectURL(convertedBlobUrl);
+                    convertedBlobUrl = null;
+                }
+                currentImage = null;
+                originalFileType = '';
+            }
+
+            function loadImage(file) {
+                if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')) {
+                    alert('Please upload a JPG or PNG image file.');
+                    resetUI();
+                    return;
+                }
+                originalFileType = file.type;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    currentImage = new Image();
+                    currentImage.onload = () => {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        noImageText.style.display = 'none';
+                        // Disable conversion to the original format
+                        convertToJPG.disabled = (originalFileType === 'image/jpeg');
+                        convertToPNG.disabled = (originalFileType === 'image/png');
+                        // Enable other conversions
+                        convertToPDF.disabled = false;
+                        convertToDOCX.disabled = false;
+                        downloadLink.style.display = 'none'; // Hide download link until converted
+
+                        if (convertedBlobUrl) {
+                            URL.revokeObjectURL(convertedBlobUrl);
+                            convertedBlobUrl = null;
+                        }
+                    };
+                    currentImage.onerror = () => {
+                        alert('Error loading image.');
+                        resetUI();
+                    };
+                    currentImage.src = e.target.result;
+                };
+                reader.onerror = () => {
+                    alert('Error reading file.');
+                    resetUI();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            async function convertImageToBlob(type) {
+                const canvas = document.createElement('canvas');
+                canvas.width = currentImage.naturalWidth;
+                canvas.height = currentImage.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(currentImage, 0, 0);
+                return new Promise(resolve => {
+                    // Use quality 0.9 for JPEG, ignored for PNG
+                    canvas.toBlob(blob => resolve(blob), type, 0.9);
+                });
+            }
+
+            async function convertToPDFFunc() {
+                if (!currentImage) return null;
+                const { jsPDF } = window.jspdf;
+                // Calculate dimensions to fit within a standard PDF page (e.g., A4) while maintaining aspect ratio
+                const imgWidth = currentImage.naturalWidth;
+                const imgHeight = currentImage.naturalHeight;
+                const pdf = new jsPDF({
+                    orientation: imgWidth > imgHeight ? 'l' : 'p', // Landscape if wide, portrait if tall
+                    unit: 'pt',
+                    format: 'a4'
+                });
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                let scaledWidth = imgWidth * ratio * 0.9; // Use 90% of page width/height
+                let scaledHeight = imgHeight * ratio * 0.9;
+                let xOffset = (pdfWidth - scaledWidth) / 2;
+                let yOffset = (pdfHeight - scaledHeight) / 2;
+
+
+                // Draw image onto a temporary canvas to get data URL for jsPDF
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = imgWidth;
+                tempCanvas.height = imgHeight;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(currentImage, 0, 0);
+                const imgData = tempCanvas.toDataURL('image/jpeg', 1.0); // Use JPEG for smaller PDF size
+
+                pdf.addImage(imgData, 'JPEG', xOffset, yOffset, scaledWidth, scaledHeight);
+                const pdfBlob = pdf.output('blob');
+                return pdfBlob;
+            }
+
+            async function convertToDOCXFunc() {
+                if (!currentImage) return null;
+                const canvas = document.createElement('canvas');
+                canvas.width = currentImage.naturalWidth;
+                canvas.height = currentImage.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(currentImage, 0, 0);
+                const dataUrl = canvas.toDataURL('image/png'); // Use PNG for DOCX for better quality
+                const docx = window.docx;
+
+                // Fetch the data URL as a blob, then as an ArrayBuffer
+                const response = await fetch(dataUrl);
+                const imageBlob = await response.blob();
+                const imageBuffer = await imageBlob.arrayBuffer();
+
+                // Calculate dimensions for DOCX, limiting max width
+                const maxDocxWidth = 600; // Max width in pixels for DOCX image
+                let docxWidth = currentImage.naturalWidth;
+                let docxHeight = currentImage.naturalHeight;
+
+                if (docxWidth > maxDocxWidth) {
+                    docxHeight = docxHeight * (maxDocxWidth / docxWidth);
+                    docxWidth = maxDocxWidth;
+                }
+
+                const doc = new docx.Document({
+                    sections: [{
+                        children: [new docx.Paragraph({
+                            children: [
+                                new docx.ImageRun({
+                                    data: imageBuffer,
+                                    transformation: {
+                                        width: docxWidth,
+                                        height: docxHeight,
+                                    },
+                                }),
+                            ]
+                        })],
+                    }],
+                });
+                const blob = await docx.Packer.toBlob(doc);
+                return blob;
+            }
+
+            async function handleConversion(type) {
+                if (!currentImage) return;
+
+                // Disable all buttons during conversion
+                convertToJPG.disabled = true;
+                convertToPNG.disabled = true;
+                convertToPDF.disabled = true;
+                convertToDOCX.disabled = true;
+                downloadLink.style.display = 'none'; // Hide previous download link
+
+                let blob = null;
+                let filename = 'converted-image';
+                let mimeType = '';
+                let showPreview = true; // Show preview for image conversions
+
+                try {
+                    if (type === 'jpg') {
+                        blob = await convertImageToBlob('image/jpeg');
+                        filename += '.jpg';
+                        mimeType = 'image/jpeg';
+                    } else if (type === 'png') {
+                        blob = await convertImageToBlob('image/png');
+                        filename += '.png';
+                        mimeType = 'image/png';
+                    } else if (type === 'pdf') {
+                        blob = await convertToPDFFunc();
+                        filename += '.pdf';
+                        mimeType = 'application/pdf';
+                        showPreview = false; // Don't show PDF preview in image tag
+                    } else if (type === 'docx') {
+                        blob = await convertToDOCXFunc();
+                        filename += '.docx';
+                        mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        showPreview = false; // Don't show DOCX preview in image tag
+                    }
+
+                    if (blob) {
+                        updatePreviewAndLink(blob, filename, mimeType, showPreview);
+                    } else {
+                         alert('Conversion failed.');
+                         resetUI(); // Reset if conversion failed
+                    }
+
+                } catch (e) {
+                    alert('An error occurred during conversion: ' + e.message);
+                    resetUI(); // Reset on error
+                } finally {
+                    // Re-enable buttons based on the currently loaded image type
+                    if (currentImage) {
+                         convertToJPG.disabled = (originalFileType === 'image/jpeg');
+                         convertToPNG.disabled = (originalFileType === 'image/png');
+                         convertToPDF.disabled = false;
+                         convertToDOCX.disabled = false;
+                    }
+                }
+            }
+
+            function updatePreviewAndLink(blob, filename, mimeType, showPreview = true) {
+                if (convertedBlobUrl) {
+                    URL.revokeObjectURL(convertedBlobUrl);
+                }
+                convertedBlobUrl = URL.createObjectURL(blob);
+                downloadLink.href = convertedBlobUrl;
+                downloadLink.download = filename;
+                downloadLink.textContent = `Download ${filename}`;
+                downloadLink.style.display = 'inline-block';
+
+                if (showPreview && mimeType.startsWith('image/')) {
+                    imagePreview.src = convertedBlobUrl;
+                    imagePreview.style.display = 'block';
+                    noImageText.style.display = 'none';
+                } else {
+                    // Hide image preview for non-image formats
+                    imagePreview.style.display = 'none';
+                    noImageText.style.display = 'block';
+                }
+
+                // Revoke the URL after download link is clicked (or after a delay)
+                downloadLink.onclick = () => {
+                    setTimeout(() => URL.revokeObjectURL(convertedBlobUrl), 10000);
+                    convertedBlobUrl = null; // Clear the stored URL
+                };
+            }
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    // Assuming only one file is processed at a time for simplicity
+                    loadImage(e.target.files[0]);
+                }
+            });
+
+            dropArea.addEventListener('click', () => fileInput.click());
+            dropArea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+            dropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropArea.classList.add('dragover');
+            });
+            dropArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+            });
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) {
+                    // Assuming only one file is processed at a time for simplicity
+                    loadImage(e.dataTransfer.files[0]);
+                }
+            });
+
+            convertToJPG.addEventListener('click', () => handleConversion('jpg'));
+            convertToPNG.addEventListener('click', () => handleConversion('png'));
+            convertToPDF.addEventListener('click', () => handleConversion('pdf'));
+            convertToDOCX.addEventListener('click', () => handleConversion('docx'));
+
+            resetUI(); // Initialize UI state
+        })();
+    </script>
+</body>
+</html>
+
+
+
+
+
+

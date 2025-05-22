@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Parcel Unit Converter: Convert weight, length, volume, currency and more for shipping parcels with ease." />
+<meta name="keywords" content="parcel converter, weight converter, length converter, currency converter, volume converter, shipping calculator" />
+<meta name="author" content="Parcel Unit Converter Team" />
+<title>Parcel Unit Converter</title>
+
+<!-- Open Graph meta -->
+<meta property="og:title" content="Parcel Unit Converter" />
+<meta property="og:description" content="Convert weight, length, volume, currency and more for shipping parcels with ease." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://example.com/parcel-unit-converter" />
+<meta property="og:image" content="https://example.com/images/parcel-unit-converter-og-image.png" />
+
+<!-- Structured Data JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Parcel Unit Converter",
+  "url": "https://example.com/parcel-unit-converter",
+  "description": "Convert weight, length, volume, currency and more for shipping parcels with ease.",
+  "author": {
+    "@type": "Organization",
+    "name": "Parcel Unit Converter Team"
+  }
+}
+</script>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    /* background: #0d6efd; */
+    color: #0d0d0d;
+    padding: 1rem;
+    text-align: center;
+  }
+  main {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  h1 {
+    margin-bottom: 1rem;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  input, select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  button {
+    background: #0d6efd;
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background: #084cd5;
+  }
+  .result {
+    margin-top: 1.5rem;
+    background: #e9ecef;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #212529;
+  }
+
+  .ad-unit {
+    margin: 2rem 0;
+    height: 90px;
+    background: #dee2e6;
+    border-radius: 8px;
+    border: 2px dashed #adb5bd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6c757d;
+    font-weight: 600;
+    user-select: none;
+  }
+
+  @media (max-width: 600px) {
+    main {
+      margin: 1rem;
+      padding: 1rem;
+    }
+  }
+</style>
+</head>
+<!-- Back Button / Close Button -->
+
+<body>
+  <div class="container">
+    <!-- Back Button -->
+    <div style="margin-bottom: 20px;">
+        <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+            <span style="margin-right: 5px;">←</span> Back to Home
+        </a>
+    </div>
+<header>
+  <h1>Parcel Unit Converter</h1>
+  <p>Convert weight, length, volume, currency and more for shipping parcels efficiently.</p>
+</header>
+
+<main>
+  <form id="parcel-converter-form" aria-label="Parcel unit converter form">
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select id="category" required>
+        <option value="weight">Weight</option>
+        <option value="length">Length</option>
+        <option value="volume">Volume</option>
+        <option value="currency">Currency</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="input-value">Value:</label>
+      <input type="number" id="input-value" min="0" step="any" placeholder="Enter value" required />
+    </div>
+
+    <div class="form-group">
+      <label for="input-unit">From:</label>
+      <select id="input-unit" required></select>
+    </div>
+
+    <div class="form-group">
+      <label for="output-unit">To:</label>
+      <select id="output-unit" required></select>
+    </div>
+
+    <button type="submit">Convert</button>
+  </form>
+
+  <div class="result" id="conversion-result" aria-live="polite" style="display:none;"></div>
+
+  <!-- REMOVED: Ad unit div -->
+
+  <section class="about-section">
+    <h2>About This Tool</h2>
+    <p>This parcel unit converter helps you quickly convert between different measurement units commonly used in shipping and logistics. Convert weight, length, volume, and currency values with precision.</p>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What units can I convert with this tool?</summary>
+      <p>You can convert weight (kg, g, lb, oz), length (m, cm, mm, ft, in, yd), volume (l, ml, m3, gal, floz), and currency values.</p>
+    </details>
+    <details>
+      <summary>How accurate are the conversions?</summary>
+      <p>All conversions use standard conversion factors and are accurate for general shipping purposes.</p>
+    </details>
+    <details>
+      <summary>Can I use this for commercial shipping calculations?</summary>
+      <p>Yes, but always verify with your carrier as they may have specific rounding rules.</p>
+    </details>
+  </section>
+</main>
+
+<script>
+  // Define units for parcel shipping context
+  const unitsData = {
+    weight: [
+      {name:"Kilograms", value:"kg", toBase: v => v, fromBase: v => v},
+      {name:"Grams", value:"g", toBase: v => v / 1000, fromBase: v => v * 1000},
+      {name:"Pounds", value:"lb", toBase: v => v * 0.453592, fromBase: v => v / 0.453592},
+      {name:"Ounces", value:"oz", toBase: v => v * 0.0283495, fromBase: v => v / 0.0283495}
+    ],
+    length: [
+      {name:"Meters", value:"m", toBase: v => v, fromBase: v => v},
+      {name:"Centimeters", value:"cm", toBase: v => v / 100, fromBase: v => v * 100},
+      {name:"Millimeters", value:"mm", toBase: v => v / 1000, fromBase: v => v * 1000},
+      {name:"Feet", value:"ft", toBase: v => v * 0.3048, fromBase: v => v / 0.3048},
+      {name:"Inches", value:"in", toBase: v => v * 0.0254, fromBase: v => v / 0.0254},
+      {name:"Yards", value:"yd", toBase: v => v * 0.9144, fromBase: v => v / 0.9144}
+    ],
+    volume: [
+      {name:"Liters", value:"l", toBase: v => v, fromBase: v => v},
+      {name:"Milliliters", value:"ml", toBase: v => v / 1000, fromBase: v => v * 1000},
+      {name:"Cubic Meters", value:"m3", toBase: v => v * 1000, fromBase: v => v / 1000},
+      {name:"US Gallons", value:"gal", toBase: v => v * 3.78541, fromBase: v => v / 3.78541},
+      {name:"US Fluid Ounces", value:"floz", toBase: v => v * 0.0295735, fromBase: v => v / 0.0295735}
+    ],
+    currency: [
+      {name:"US Dollar (USD)", value:"USD", rate: 1},
+      {name:"Euro (EUR)", value:"EUR", rate: 0.91},
+      {name:"British Pound (GBP)", value:"GBP", rate: 0.81},
+      {name:"Indian Rupee (INR)", value:"INR", rate: 81.32},
+      {name:"Japanese Yen (JPY)", value:"JPY", rate: 132.01},
+      {name:"Chinese Yuan (CNY)", value:"CNY", rate: 6.89}
+    ]
+  };
+
+  // Elements
+  const categorySelect = document.getElementById('category');
+  const inputUnitSelect = document.getElementById('input-unit');
+  const outputUnitSelect = document.getElementById('output-unit');
+  const inputValueField = document.getElementById('input-value');
+  const form = document.getElementById('parcel-converter-form');
+  const resultDiv = document.getElementById('conversion-result');
+
+  // Populate units dropdowns based on category
+  function populateUnits(category) {
+    // Clear options
+    inputUnitSelect.innerHTML = '';
+    outputUnitSelect.innerHTML = '';
+    // Safety check
+    if (!unitsData[category]) return;
+
+    unitsData[category].forEach(unit => {
+      const optionIn = document.createElement('option');
+      optionIn.value = unit.value;
+      optionIn.textContent = unit.name;
+      inputUnitSelect.appendChild(optionIn);
+
+      const optionOut = document.createElement('option');
+      optionOut.value = unit.value;
+      optionOut.textContent = unit.name;
+      outputUnitSelect.appendChild(optionOut);
+    });
+
+    // Set defaults for weight and length and volume and currency
+    if(category === 'weight'){
+      inputUnitSelect.value = 'kg';
+      outputUnitSelect.value = 'lb';
+    } else if (category === 'length') {
+      inputUnitSelect.value = 'm';
+      outputUnitSelect.value = 'ft';
+    } else if(category === 'volume') {
+      inputUnitSelect.value = 'l';
+      outputUnitSelect.value = 'gal';
+    } else if(category === 'currency') {
+      inputUnitSelect.value = 'USD';
+      outputUnitSelect.value = 'EUR';
+    }
+  }
+
+  // Convert function handles all categories
+  function convert(value, category, inputUnit, outputUnit) {
+    if(category === 'currency'){
+      // Currency uses rates
+      const inputCurrency = unitsData.currency.find(u=>u.value === inputUnit);
+      const outputCurrency = unitsData.currency.find(u=>u.value === outputUnit);
+      if(!inputCurrency || !outputCurrency) return null;
+      const usdValue = value / inputCurrency.rate;
+      return usdValue * outputCurrency.rate;
+    } else {
+      // Others use toBase/fromBase
+      const inputUnitObj = unitsData[category].find(u=>u.value === inputUnit);
+      const outputUnitObj = unitsData[category].find(u=>u.value === outputUnit);
+      if(!inputUnitObj || !outputUnitObj) return null;
+      const baseValue = inputUnitObj.toBase(value);
+      return outputUnitObj.fromBase(baseValue);
+    }
+  }
+
+  // Initialize dropdowns for selected category
+  function handleCategoryChange() {
+    const category = categorySelect.value;
+    populateUnits(category);
+    resultDiv.style.display = 'none';
+  }
+
+  categorySelect.addEventListener('change', handleCategoryChange);
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const val = parseFloat(inputValueField.value);
+    if(isNaN(val)){
+      alert('Enter a valid number for value');
+      return;
+    }
+
+    const category = categorySelect.value;
+    const inputUnit = inputUnitSelect.value;
+    const outputUnit = outputUnitSelect.value;
+
+    if(inputUnit === outputUnit){
+      resultDiv.textContent = `Converted Value: ${val.toFixed(6)} (${inputUnit})`;
+      resultDiv.style.display = 'block';
+      return;
+    }
+
+    const converted = convert(val, category, inputUnit, outputUnit);
+    if(converted === null){
+      resultDiv.textContent = 'Conversion not possible.';
+      resultDiv.style.display = 'block';
+      return;
+    }
+
+    resultDiv.textContent = `Converted Value: ${converted.toFixed(6)} (${outputUnit})`;
+    resultDiv.style.display = 'block';
+  });
+
+  // Initial population
+  populateUnits(categorySelect.value);
+</script>
+
+</body>
+</html>
+
+

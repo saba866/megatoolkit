@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the future value of your SIP investments with our responsive calculator tool.">
+    <meta property="og:title" content="SIP Investment Calculator | Clean & Responsive">
+    <meta property="og:description" content="Estimate your SIP returns with our mobile-friendly calculator.">
+    <title>SIP Investment Calculator</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px; /* Adjusted max-width for better form layout */
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 2rem;
+            text-align: center; /* Center align heading */
+        }
+
+        .subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            text-align: center; /* Center align subtitle */
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted minmax for better responsiveness */
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background-color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .result-card {
+            background: #f1f8fe;
+            border-left: 4px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 40px 0;
+            display: none; /* Initially hidden */
+        }
+
+        .result-card h2 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            margin: 40px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* FAQ Section Styles */
+        .faq-container {
+            margin: 40px 0;
+        }
+
+        .faq-container h2 {
+             color: var(--secondary);
+             margin-bottom: 20px;
+             text-align: center;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 18px 20px;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #f1f1f1;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px; /* Sufficient height for content */
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .calculator-card {
+                padding: 25px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            button {
+                padding: 14px;
+            }
+
+            .faq-question {
+                padding: 16px;
+            }
+
+            .faq-answer {
+                padding: 0 16px;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            input, select {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+ 
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+        <div class="calculator-card">
+            <h1>SIP Investment Calculator</h1>
+            <p class="subtitle">Estimate your investment growth with systematic monthly investments</p>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="monthlyInvestment">Monthly Investment</label>
+                    <input type="number" id="monthlyInvestment" placeholder="e.g. 5000" min="1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="annualReturnRate">Expected Return Rate (%)</label>
+                    <input type="number" id="annualReturnRate" placeholder="e.g. 12" min="0.1" step="0.1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="investmentDuration">Duration (Years)</label>
+                    <input type="number" id="investmentDuration" placeholder="e.g. 5" min="1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="currencySelect">Currency</label>
+                    <select id="currencySelect">
+                        <option value="₹">₹ Indian Rupee</option>
+                        <option value="$">$ US Dollar</option>
+                        <option value="€">€ Euro</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="calculateBtn">Calculate Returns</button>
+        </div>
+
+        <div class="result-card" id="result">
+            <h2>Investment Summary</h2>
+            <p class="result-item">Total Invested Amount: <span id="totalInvested"></span></p>
+            <p class="result-item">Estimated Returns Earned: <span id="estimatedReturns"></span></p>
+            <p class="result-item">Total Maturity Value: <span id="totalMaturity"></span></p>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="investmentChart"></canvas>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-container">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is SIP investment?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>SIP (Systematic Investment Plan) allows you to invest a fixed amount regularly in mutual funds. It helps in rupee cost averaging and disciplined investing.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How does this calculator work?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>The calculator uses compound interest formula to project your investment growth based on monthly contributions, expected return rate, and investment duration.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Are the results guaranteed?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>No, these are projected values based on your inputs. Actual returns may vary depending on market performance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultDiv = document.getElementById('result');
+        const investmentChartCanvas = document.getElementById('investmentChart');
+        let investmentChart = null; // Variable to hold the chart instance
+
+        calculateBtn.addEventListener('click', calculateSIP);
+
+        function calculateSIP() {
+            const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value);
+            const annualReturnRate = parseFloat(document.getElementById('annualReturnRate').value) / 100;
+            const investmentDuration = parseInt(document.getElementById('investmentDuration').value);
+            const currency = document.getElementById('currencySelect').value;
+
+            if (isNaN(monthlyInvestment) || isNaN(annualReturnRate) || isNaN(investmentDuration) || monthlyInvestment <= 0 || annualReturnRate < 0 || investmentDuration <= 0) {
+                resultDiv.style.display = 'block'; // Show result div for error
+                document.getElementById('totalInvested').textContent = '';
+                document.getElementById('estimatedReturns').textContent = '';
+                document.getElementById('totalMaturity').textContent = 'Please enter valid investment details.';
+                if (investmentChart) {
+                    investmentChart.destroy(); // Destroy previous chart on error
+                }
+                return;
+            }
+
+            const totalMonths = investmentDuration * 12;
+            const totalInvested = monthlyInvestment * totalMonths;
+            let totalMaturityValue = 0;
+            let investmentValues = [];
+            let principal = 0;
+
+            for (let month = 1; month <= totalMonths; month++) {
+                principal += monthlyInvestment;
+                // Compound interest calculation for each month's contribution
+                totalMaturityValue = principal * Math.pow(1 + annualReturnRate / 12, month);
+                 // This calculation is incorrect for SIP. Let's use the correct formula.
+                 // Correct SIP Future Value formula: FV = P * [((1 + r)^n - 1) / r] * (1+r)
+                 // Where P = periodic payment, r = rate per period, n = number of periods
+                 // Monthly rate = annualReturnRate / 12
+                 // Number of periods = totalMonths
+            }
+
+            // Correct SIP Future Value Calculation
+            const monthlyRate = annualReturnRate / 12;
+            let futureValue = 0;
+            investmentValues = []; // Reset investment values for correct chart data
+
+            for (let i = 0; i < totalMonths; i++) {
+                futureValue = monthlyInvestment * (Math.pow(1 + monthlyRate, i + 1) - 1) / monthlyRate;
+                investmentValues.push(futureValue);
+            }
+            totalMaturityValue = futureValue; // The last calculated future value is the total maturity value
+
+            const estimatedReturns = totalMaturityValue - totalInvested;
+
+            document.getElementById('totalInvested').textContent = `${currency}${totalInvested.toFixed(2)}`;
+            document.getElementById('estimatedReturns').textContent = `${currency}${estimatedReturns.toFixed(2)}`;
+            document.getElementById('totalMaturity').textContent = `${currency}${totalMaturityValue.toFixed(2)}`;
+            resultDiv.style.display = 'block'; // Show result div
+
+            // Chart.js visualization
+            if (investmentChart) {
+                investmentChart.destroy(); // Destroy previous chart instance
+            }
+
+            investmentChart = new Chart(investmentChartCanvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: totalMonths }, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Investment Growth',
+                        data: investmentValues,
+                        borderColor: 'rgba(67, 97, 238, 1)', /* Use primary color */
+                        backgroundColor: 'rgba(67, 97, 238, 0.2)', /* Light fill */
+                        borderWidth: 2,
+                        fill: true, /* Fill area under the line */
+                        tension: 0.1 /* Add some curve to the line */
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, /* Allow chart to resize freely */
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += `${currency}${context.parsed.y.toFixed(2)}`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Months'
+                            },
+                            grid: {
+                                display: false /* Hide x-axis grid lines */
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Value (' + currency + ')'
+                            },
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e0e0e0' /* Light gray grid lines */
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // FAQ functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Close other open FAQs
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-toggle').textContent = '+';
+                    }
+                });
+
+                // Toggle the clicked FAQ
+                item.classList.toggle('active');
+                const toggle = question.querySelector('.faq-toggle');
+                toggle.textContent = item.classList.contains('active') ? '−' : '+';
+            });
+        });
+
+    </script>
+</body>
+</html>

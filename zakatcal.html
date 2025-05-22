@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakat Calculator - Islamic Finance Tool</title>
+  <meta name="description" content="Calculate your Zakat obligation quickly and accurately with our free Zakat calculator based on Islamic financial guidelines." />
+  <meta name="keywords" content="Zakat Calculator, Islamic Finance, Zakat Tool, Zakat Calculation, Pay Zakat" />
+  <meta name="author" content="Your Name" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://yourwebsite.com/zakat-calculator" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Zakat Calculator - Islamic Finance Tool" />
+  <meta property="og:description" content="Free and accurate Zakat calculator based on Islamic rules. Calculate your Zakat for cash, gold, investments and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourwebsite.com/zakat-calculator" />
+  <meta property="og:image" content="https://yourwebsite.com/assets/zakat-calculator-image.png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Zakat?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Zakat is one of the Five Pillars of Islam, an obligatory charity paid annually by Muslims who meet the necessary criteria of wealth."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does this calculator work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The calculator sums your eligible assets (cash, gold, investments etc.), subtracts debts/liabilities, and calculates 2.5% of the remaining amount if it meets the Nisab threshold."
+          }
+        }
+      ]
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+      background-color: #fff;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      color: #2c3e50;
+      margin-top: 30px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #219150;
+    }
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      display: none;
+    }
+    .result-item {
+      margin: 5px 0;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    details {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+    }
+    details[open] summary {
+      margin-bottom: 10px;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      button {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main Container -->
+  <div class="container">
+    
+      <!-- Back Button -->
+      <div style="margin-bottom: 20px;">
+          <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+              <span style="margin-right: 5px;">←</span> Back to Home
+          </a>
+      </div>
+    <h1>Zakat Calculator</h1>
+    
+    <form id="zakat-form">
+      <label for="cash-savings">Cash Savings (₹)</label>
+      <input type="number" id="cash-savings" placeholder="Enter cash savings" />
+
+      <label for="gold-silver-value">Gold and Silver Value (₹)</label>
+      <input type="number" id="gold-silver-value" placeholder="Enter gold and silver value" />
+
+      <label for="investments">Investments and Stocks (₹)</label>
+      <input type="number" id="investments" placeholder="Enter investments and stocks value" />
+
+      <label for="business-inventory">Business Inventory (₹)</label>
+      <input type="number" id="business-inventory" placeholder="Enter business inventory value" />
+
+      <label for="debts">Debts Owed and Liabilities (₹)</label>
+      <input type="number" id="debts" placeholder="Enter debts owed and liabilities" />
+
+      <button id="calculate-button">Calculate Zakat</button>
+    </form>
+    
+    <div class="results" id="results">
+      <h2>Calculation Summary</h2>
+      <p class="result-item">Total Zakat Payable: ₹<span id="zakat-amount">0.00</span></p>
+      <p class="result-item">Breakdown:</p>
+      <ul id="breakdown-list"></ul>
+    </div>
+    <p class="error" id="error-message"></p>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      
+      <details>
+        <summary>What is Zakat?</summary>
+        <p>Zakat is one of the Five Pillars of Islam, an obligatory charity paid annually by Muslims who meet the necessary criteria of wealth (Nisab). It purifies wealth and helps those in need.</p>
+      </details>
+      
+      <details>
+        <summary>How does this calculator work?</summary>
+        <p>The calculator sums your eligible assets (cash, gold, investments etc.), subtracts debts/liabilities, and calculates 2.5% of the remaining amount if it meets the Nisab threshold (equivalent to 87.48 grams of gold or 612.36 grams of silver).</p>
+      </details>
+      
+      <details>
+        <summary>Which assets are included in Zakat calculation?</summary>
+        <p>Zakat is due on: cash (including bank balances), gold and silver (whether jewelry or bullion), business inventory, investments, and receivables. Personal items like homes, cars, and clothing are exempt.</p>
+      </details>
+      
+      <details>
+        <summary>How often should I pay Zakat?</summary>
+        <p>Zakat is due once every lunar year (Hijri year) when your wealth exceeds the Nisab threshold. Many Muslims pay it during Ramadan for greater blessings.</p>
+      </details>
+      
+      <details>
+        <summary>Is my data stored or shared?</summary>
+        <p>No, all calculations are done in your browser. We don't store or share any of your financial information.</p>
+      </details>
+    </section>
+  </div>
+
+  <script>
+    document.getElementById('calculate-button').addEventListener('click', calculateZakat);
+
+    function calculateZakat() {
+      const cash = parseFloat(document.getElementById('cash-savings').value) || 0;
+      const gold = parseFloat(document.getElementById('gold-silver-value').value) || 0;
+      const stocks = parseFloat(document.getElementById('investments').value) || 0;
+      const inventory = parseFloat(document.getElementById('business-inventory').value) || 0;
+      const debt = parseFloat(document.getElementById('debts').value) || 0;
+
+      const errorEl = document.getElementById('error-message');
+      const resultEl = document.getElementById('results');
+      const amountEl = document.getElementById('zakat-amount');
+      const breakdownEl = document.getElementById('breakdown-list');
+
+      // Clear previous results
+      errorEl.textContent = '';
+      breakdownEl.innerHTML = '';
+
+      // Calculate total assets and net worth
+      const totalAssets = cash + gold + stocks + inventory;
+      const netWorth = totalAssets - debt;
+
+      // Check if net worth meets Nisab (approx ₹1,00,000 based on gold value)
+      if (netWorth < 100000) {
+        errorEl.textContent = 'Your net worth is below the Nisab threshold. Zakat is not obligatory.';
+        resultEl.style.display = 'none';
+        return;
+      }
+
+      // Calculate Zakat (2.5% of net worth)
+      const zakatAmount = netWorth * 0.025;
+      amountEl.textContent = zakatAmount.toFixed(2);
+
+      // Show breakdown
+      const breakdownItems = [
+        `Total Assets: ₹${totalAssets.toFixed(2)}`,
+        `Less Debts: ₹${debt.toFixed(2)}`,
+        `Net Worth: ₹${netWorth.toFixed(2)}`,
+        `Zakat Rate: 2.5%`
+      ];
+
+      breakdownItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        breakdownEl.appendChild(li);
+      });
+
+      resultEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+

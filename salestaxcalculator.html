@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Calculate sales tax for goods or services easily with our user-friendly sales tax calculator. Get instant results including tax amount and total price." />
+    <meta name="keywords" content="sales tax calculator, tax calculation, GST, VAT, sales tax, tax report, online calculator" />
+    <meta name="author" content="Your Site Name" /> <!-- Update author name -->
+    <title>Sales Tax Calculator – Your Site Name</title> <!-- Updated title -->
+
+    <!-- Open Graph meta -->
+    <meta property="og:title" content="Sales Tax Calculator – Your Site Name" /> <!-- Updated title -->
+    <meta property="og:description" content="Calculate sales tax for goods or services easily with our user-friendly sales tax calculator. Get instant results including tax amount and total price." /> <!-- Updated description -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://example.com/sales-tax-calculator" /> <!-- Update URL -->
+    <meta property="og:image" content="https://example.com/images/sales-tax-calculator-og-image.png" /> <!-- Update image URL -->
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sales Tax Calculator",
+        "url": "https://example.com/sales-tax-calculator", <!-- Update URL -->
+        "description": "Calculate sales tax for goods or services easily.",
+        "author": {
+            "@type": "Organization",
+            "name": "Your Site Name" <!-- Update author name -->
+        }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+    <!-- Chart.js for pie chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Light neutral background */
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+            color: #333;
+        }
+        header {
+            background: none; /* Removed background */
+            color: #333; /* Changed text color for visibility */
+            padding: 1rem;
+            text-align: center;
+            box-shadow: none; /* Removed shadow */
+        }
+         body.dark-mode header {
+            background: none;
+            color: #eee;
+            box-shadow: none;
+         }
+        main {
+            max-width: 700px; /* Increased max-width slightly */
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin: 0 0 1rem;
+            font-size: 2rem; /* Larger heading */
+        }
+        h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: #0056b3; /* Match header color */
+            border-bottom: 2px solid #eee; /* Subtle separator */
+            padding-bottom: 0.5rem;
+        }
+         body.dark-mode h2 {
+            color: #007bff;
+            border-bottom-color: #444;
+        }
+        .form-group {
+            margin-bottom: 1.5rem; /* Increased spacing */
+        }
+        label {
+            display: block;
+            margin-bottom: 0.6rem; /* Increased spacing */
+            font-weight: 500;
+            color: #555;
+        }
+         body.dark-mode label {
+            color: #bbb;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.8rem; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 8px; /* More rounded inputs */
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+         body.dark-mode input, body.dark-mode select {
+            background-color: #3a3a3a;
+            color: #eee;
+            border-color: #555;
+        }
+        body.dark-mode input::placeholder,
+        body.dark-mode select::placeholder {
+            color: #aaa;
+        }
+        body.dark-mode input:focus, body.dark-mode select:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 1rem; /* Increased padding */
+            border-radius: 8px; /* More rounded buttons */
+            font-size: 1.1rem; /* Larger font */
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            width: 100%; /* Full width button */
+            margin-top: 1rem;
+        }
+        button:hover {
+            background: #0056b3; /* Darker blue on hover */
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+         body.dark-mode button {
+            background-color: #0056b3;
+        }
+        body.dark-mode button:hover {
+            background-color: #003366;
+        }
+        .result {
+            margin-top: 2rem;
+            background-color: #e9ecef; /* Light grey background for results */
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #007bff; /* Accent border */
+            display: none; /* Initially hidden */
+        }
+        .result h2 {
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            color: #333;
+        }
+         body.dark-mode .result {
+            background-color: #3a3a3a;
+            color: #eee;
+            border-left-color: #0056b3;
+        }
+         body.dark-mode .result h2 {
+            color: #eee;
+        }
+        .result p {
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+        .result p:last-child {
+            margin-bottom: 0;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #eee;
+        }
+        body.dark-mode main {
+            background: #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        /* Currency selector fixed width */
+        #currency {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        /* Chart container */
+        #chart-container {
+            margin-top: 2rem;
+            text-align: center;
+            background: white; /* Card styling for chart */
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+        }
+         body.dark-mode #chart-container {
+            background: #2a2a2a;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* About and FAQ Sections */
+        .info-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+         body.dark-mode .info-section {
+            border-top-color: #444;
+         }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+         body.dark-mode .faq-item {
+            border-color: #555;
+            background-color: #333;
+         }
+
+        .faq-question {
+            padding: 15px 20px;
+            background: #eee;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+         body.dark-mode .faq-question {
+            background: #444;
+            color: #eee;
+         }
+
+        .faq-question:hover {
+            background-color: #ddd;
+        }
+         body.dark-mode .faq-question:hover {
+            background-color: #555;
+         }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item[open] .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: #f9f9f9;
+        }
+         body.dark-mode .faq-answer {
+            background: #333;
+            color: #ccc;
+         }
+
+        .faq-item[open] .faq-answer {
+            padding: 15px 20px;
+            max-height: 500px; /* Sufficient height for content */
+        }
+
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            main {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            button {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            .faq-question, .faq-answer {
+                padding: 12px 15px;
+            }
+             .faq-item[open] .faq-answer {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Back to Home
+            </a>
+        </div>
+<header>
+    <h1>Sales Tax Calculator</h1>
+</header>
+
+<main>
+    <form id="tax-calculator-form" aria-label="Sales tax calculator form">
+        <h2>Calculate Sales Tax</h2>
+        <div class="form-group">
+            <label for="price">Product/Service Price:</label>
+            <input type="number" id="price" min="0" step="any" placeholder="Enter price" required />
+        </div>
+        <div class="form-group">
+            <label for="tax-rate">Tax Rate (%):</label>
+            <input type="number" id="tax-rate" min="0" step="any" placeholder="Enter tax rate" required />
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity (optional):</label>
+            <input type="number" id="quantity" min="1" step="1" value="1" placeholder="Enter quantity (default is 1)" />
+        </div>
+         <div class="form-group">
+            <label for="tax-mode">Calculation Type:</label>
+            <select id="tax-mode" required>
+                <option value="exclusive">Add Tax (Exclusive)</option>
+                <option value="inclusive">Remove Tax (Inclusive)</option>
+            </select>
+        </div>
+         <div class="form-group">
+            <label for="currency">Currency Symbol:</label>
+            <select id="currency" required>
+                <option value="$">USD ($)</option>
+                <option value="€">EUR (€)</option>
+                <option value="£">GBP (£)</option>
+                <option value="₹">INR (₹)</option>
+                <option value="¥">JPY (¥)</option>
+                <option value="A$">AUD (A$)</option>
+                <option value="C$">CAD (C$)</option>
+                <option value="CHF">CHF (CHF)</option>
+                <option value="CN¥">CNY (CN¥)</option>
+                <option value="SEK">SEK (SEK)</option>
+                <option value="NZ$">NZD (NZ$)</option>
+                <option value="SGD">SGD (SGD)</option>
+                <option value="HK$">HKD (HK$)</option>
+                <option value="NOK">NOK (NOK)</option>
+                <option value="KRW">KRW (₩)</option>
+                <option value="BRL">BRL (R$)</option>
+                <option value="RUB">RUB (₽)</option>
+                <option value="ZAR">ZAR (R)</option>
+                <option value="AED">AED (د.إ)</option>
+                <option value="SAR">SAR (ر.س)</option>
+                <option value="MXN">MXN ($)</option>
+                <option value="IDR">IDR (Rp)</option>
+                <option value="TRY">TRY (₺)</option>
+                <option value="PLN">PLN (zł)</option>
+                <option value="PHP">PHP (₱)</option>
+                <option value="THB">THB (฿)</option>
+                <option value="MYR">MYR (RM)</option>
+                <option value="CLP">CLP ($)</option>
+                <option value="TWD">TWD (NT$)</option>
+                <option value="PKR">PKR (₨)</option>
+                <option value="DKK">DKK (kr.)</option>
+                <option value="ARS">ARS ($)</option>
+                <option value="CZK">CZK (Kč)</option>
+                <option value="ILS">ILS (₪)</option>
+                <option value="QAR">QAR (ر.ق)</option>
+                <option value="KWD">KWD (د.ك)</option>
+                <option value="BHD">BHD (.د.ب)</option>
+                <option value="OMR">OMR (ر.ع.)</option>
+                <option value="Others">Other</option> <!-- Option for custom input if needed -->
+            </select>
+        </div>
+
+        <button type="submit">Calculate Tax</button>
+    </form>
+
+    <div class="result" id="result" aria-live="polite" style="display:none;">
+        <h2>Calculation Results</h2>
+        <p id="tax-amount">Tax Amount: </p>
+        <p id="total-price">Total Price (including tax): </p>
+        <p id="price-before-tax">Price Before Tax: </p>
+         <button id="download-pdf-btn" style="display:none;">Download PDF Summary</button>
+    </div>
+
+    <div id="chart-container">
+        <canvas id="breakdownChart" aria-label="Tax breakdown chart" role="img"></canvas>
+    </div>
+
+    <!-- Removed advertisement placeholder -->
+
+    <section class="info-section">
+        <h2>About This Tool</h2>
+        <p>
+            This Sales Tax Calculator helps you quickly determine the sales tax amount and the total price of a product or service.
+            You can calculate tax exclusively (added to the base price) or inclusively (removed from the total price).
+            Simply enter the price, tax rate, and quantity, and the calculator will provide a detailed breakdown.
+        </p>
+    </section>
+
+    <section class="info-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary class="faq-question">
+                    What is sales tax?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Sales tax is a consumption tax imposed by a government on the sale of goods and services. It is typically calculated as a percentage of the purchase price.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    How do I use this calculator?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Enter the price of the item, the applicable tax rate (as a percentage), and optionally the quantity. Select whether the tax rate should be added (exclusive) or is already included (inclusive) in the price. Click "Calculate Tax" to see the results.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    What is the difference between exclusive and inclusive tax?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Exclusive tax is added to the base price of the item to get the total price. Inclusive tax means the tax amount is already part of the total price, and the calculator will determine the original price before tax.</p>
+                </div>
+            </details>
+
+             <details class="faq-item">
+                <summary class="faq-question">
+                    Can I calculate tax for multiple items?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Yes, you can enter the quantity of items. The calculator will apply the tax calculation to the total price based on the quantity.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const form = document.getElementById('tax-calculator-form');
+    const priceInput = document.getElementById('price');
+    const taxRateInput = document.getElementById('tax-rate');
+    const quantityInput = document.getElementById('quantity');
+    const taxModeSelect = document.getElementById('tax-mode');
+    const currencySelect = document.getElementById('currency');
+
+    const resultDiv = document.getElementById('result');
+    const taxAmountP = document.getElementById('tax-amount');
+    const totalPriceP = document.getElementById('total-price');
+    const priceBeforeTaxP = document.getElementById('price-before-tax');
+    const downloadBtn = document.getElementById('download-pdf-btn'); // Get the download button
+
+    const chartContainer = document.getElementById('chart-container');
+    let chartInstance = null;
+
+    // Format currency helper
+    function formatValue(val, currency) {
+        if(currency === "Others") return val.toFixed(2);
+        // For other currencies, show symbol + value
+        return currency + val.toFixed(2);
+    }
+
+    function calculateTax() {
+        const price = parseFloat(priceInput.value);
+        const taxRate = parseFloat(taxRateInput.value);
+        let quantity = parseInt(quantityInput.value);
+        if(isNaN(quantity) || quantity < 1) quantity = 1; // Default quantity to 1 if invalid
+        const taxMode = taxModeSelect.value;
+        let currency = currencySelect.value;
+
+        if(isNaN(price) || isNaN(taxRate) || price < 0 || taxRate < 0) {
+            resultDiv.style.display = 'none';
+            chartContainer.style.display = 'none';
+            downloadBtn.style.display = 'none'; // Hide download button
+            return;
+        }
+
+        let taxAmount, totalPrice, priceBeforeTax;
+
+        if(taxMode === 'exclusive') {
+            taxAmount = (price * taxRate / 100) * quantity;
+            totalPrice = (price * quantity) + taxAmount;
+            priceBeforeTax = price * quantity;
+        } else {
+            totalPrice = price * quantity; // Total price is the input price * quantity
+            priceBeforeTax = totalPrice / (1 + (taxRate / 100));
+            taxAmount = totalPrice - priceBeforeTax;
+        }
+
+        taxAmountP.textContent = `Tax Amount: ${formatValue(taxAmount, currency)}`;
+        totalPriceP.textContent = `Total Price (including tax): ${formatValue(totalPrice, currency)}`;
+        priceBeforeTaxP.textContent = `Price Before Tax: ${formatValue(priceBeforeTax, currency)}`;
+
+        resultDiv.style.display = 'block';
+        downloadBtn.style.display = 'inline-block'; // Show download button
+
+        // Only show chart if there's a positive subtotal or tax amount
+        if (priceBeforeTax > 0 || taxAmount > 0) {
+             showChart(priceBeforeTax, taxAmount);
+        } else {
+             chartContainer.style.display = 'none';
+             if(chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+             }
+        }
+
+
+    }
+
+    form.addEventListener('submit', e=> {
+        e.preventDefault();
+        calculateTax();
+    });
+
+    // Show pie chart of subtotal, tax
+    function showChart(subtotal, tax) {
+        chartContainer.style.display = 'block';
+        const ctx = document.getElementById('breakdownChart').getContext('2d');
+
+        if(chartInstance) {
+            chartInstance.destroy();
+        }
+        chartInstance = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Price Before Tax', 'Tax Amount'],
+                datasets: [{
+                    data: [subtotal, tax],
+                    backgroundColor: ['#007bff', '#ffc107'],
+                    hoverOffset: 30
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {size: 14}
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.parsed || 0;
+                                return label + ': ' + formatValue(value, currencySelect.value); // Use formatValue here
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // PDF Download
+    downloadBtn.addEventListener('click', () => {
+        import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js').then(jsPDFModule => {
+            const { jsPDF } = jsPDFModule;
+            const doc = new jsPDF();
+
+            const currency = currencySelect.value;
+
+            const price = parseFloat(priceInput.value);
+            const taxRate = parseFloat(taxRateInput.value);
+            let quantity = parseInt(quantityInput.value);
+            if(isNaN(quantity) || quantity < 1) quantity = 1;
+            const taxMode = taxModeSelect.value;
+
+            let taxAmount, totalPrice, priceBeforeTax;
+
+            if(taxMode === 'exclusive') {
+                taxAmount = (price * taxRate / 100) * quantity;
+                totalPrice = (price * quantity) + taxAmount;
+                priceBeforeTax = price * quantity;
+            } else {
+                 totalPrice = price * quantity;
+                 priceBeforeTax = totalPrice / (1 + (taxRate / 100));
+                 taxAmount = totalPrice - priceBeforeTax;
+            }
+
+            doc.setFontSize(18);
+            doc.text('Sales Tax Calculation Summary', 14, 22);
+            doc.setFontSize(14);
+            doc.text(`Price per unit: ${formatValue(price, currency)}`, 14, 42);
+            doc.text(`Quantity: ${quantity}`, 14, 55);
+            doc.text(`Tax Rate: ${taxRate.toFixed(2)}% (${taxMode})`, 14, 68);
+            doc.text('-------------------------', 14, 78);
+            doc.text(`Tax Amount: ${formatValue(taxAmount, currency)}`, 14, 90);
+            doc.text(`Price Before Tax: ${formatValue(priceBeforeTax, currency)}`, 14, 103);
+            doc.text(`Total Price (including tax): ${formatValue(totalPrice, currency)}`, 14, 116);
+
+            doc.save('sales-tax-summary.pdf');
+        });
+    });
+
+    // Initialize with default calculation if form pre-filled
+    window.addEventListener('load', () => {
+        // You might want to remove this if you don't want calculation on load
+        // calculateTax();
+    });
+
+    // Add event listeners for input changes to recalculate
+    priceInput.addEventListener('input', calculateTax);
+    taxRateInput.addEventListener('input', calculateTax);
+    quantityInput.addEventListener('input', calculateTax);
+    taxModeSelect.addEventListener('change', calculateTax);
+    currencySelect.addEventListener('change', calculateTax);
+
+    // FAQ Toggle Script
+    document.querySelectorAll('.faq-item summary').forEach(summary => {
+        summary.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default toggle
+            const detail = this.parentElement;
+            if (detail.hasAttribute('open')) {
+                detail.removeAttribute('open');
+            } else {
+                detail.setAttribute('open', '');
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
+
+

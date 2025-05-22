@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate custom QR codes easily from URLs, text, emails, phone numbers, and more. Customize colors and download your QR code."> <!-- Updated description -->
+    <meta name="keywords" content="QR code generator, create QR code, custom QR code, URL QR code, text QR code, email QR code, phone QR code, wifi QR code, vcard QR code"> <!-- Added keywords -->
+    <meta name="author" content="Your Site Name"> <!-- Update author name -->
+
+    <!-- Open Graph meta -->
+    <meta property="og:title" content="QR Code Generator – Your Site Name"> <!-- Updated title -->
+    <meta property="og:description" content="Generate custom QR codes easily from URLs, text, emails, phone numbers, and more. Customize colors and download your QR code."> <!-- Updated description -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/qr-code-generator"> <!-- Update URL -->
+    <meta property="og:image" content="https://example.com/images/qr-code-generator-og-image.png"> <!-- Update image URL -->
+
+    <!-- Structured Data JSON-LD for FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is a QR code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A QR code (Quick Response code) is a type of matrix barcode (or two-dimensional barcode) that can be read easily by a digital device and which stores information as a series of pixels in a square-shaped grid."
+        }
+      },{
+        "@type": "Question",
+        "name": "How do I generate a QR code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Select the type of data you want to encode (URL, text, email, etc.), enter the data into the input field, optionally choose colors, and click 'Generate QR Code'."
+        }
+      },{
+        "@type": "Question",
+        "name": "Can I customize the QR code colors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can select the foreground (code) color and the background color using the color pickers provided."
+        }
+      },{
+        "@type": "Question",
+        "name": "What data types are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This generator supports URLs, plain text, email addresses, phone numbers, Wi-Fi credentials, and vCards."
+        }
+      },{
+        "@type": "Question",
+        "name": "How can I download the generated QR code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "After generating the QR code, buttons will appear below it allowing you to download the image in PNG or SVG format, or as a PDF."
+        }
+      }]
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>QR Code Generator – Your Site Name</title> <!-- Updated title -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa; /* Light neutral background */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        header {
+            background: none; /* Removed background */
+            color: #333; /* Changed text color for visibility */
+            padding: 1rem;
+            text-align: center;
+            box-shadow: none; /* Removed shadow */
+        }
+        main {
+            max-width: 700px; /* Increased max-width slightly */
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+        }
+        h1 {
+            margin: 0 0 0.5rem; /* Adjusted margin */
+            font-size: 2rem; /* Larger heading */
+        }
+        h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: #0056b3; /* Match header color */
+            border-bottom: 2px solid #eee; /* Subtle separator */
+            padding-bottom: 0.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem; /* Increased spacing */
+        }
+        label {
+            display: block;
+            margin-bottom: 0.6rem; /* Increased spacing */
+            font-weight: 500;
+            color: #555;
+        }
+        input[type="text"], select, input[type="color"] {
+            width: 100%;
+            padding: 0.8rem; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 8px; /* More rounded inputs */
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box; /* Include padding and border in element's total width */
+        }
+         input[type="color"] {
+             padding: 0.4rem; /* Smaller padding for color inputs */
+             height: 44px; /* Match height of text input/select */
+             vertical-align: middle;
+         }
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 1rem; /* Increased padding */
+            border-radius: 8px; /* More rounded buttons */
+            font-size: 1.1rem; /* Larger font */
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            width: 100%; /* Full width button */
+            margin-top: 1rem;
+        }
+        button:hover {
+            background: #0056b3; /* Darker blue on hover */
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .qr-code {
+            margin-top: 2rem;
+            text-align: center;
+            background: #f9f9f9; /* Light background for QR area */
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
+            min-height: 250px; /* Minimum height */
+        }
+        .qr-code canvas {
+            display: block; /* Remove extra space below canvas */
+            max-width: 100%; /* Ensure responsiveness */
+            height: auto;
+        }
+        .controls {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Space between buttons */
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+        .controls button {
+            width: auto; /* Auto width for control buttons */
+            flex-grow: 1; /* Allow buttons to grow */
+            max-width: 200px; /* Max width for control buttons */
+            padding: 0.8rem 1.5rem; /* Adjusted padding */
+            font-size: 1rem; /* Adjusted font size */
+            margin-top: 0; /* Remove top margin */
+        }
+
+        /* About and FAQ Sections */
+        .info-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        .faq-question {
+            padding: 15px 20px;
+            background: #eee;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #ddd;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item[open] .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .faq-item[open] .faq-answer {
+            padding: 15px 20px;
+            max-height: 500px; /* Sufficient height for content */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem; /* Increased margin */
+            padding: 1.5rem;
+            background-color: #e9ecef; /* Light background for footer */
+            color: #555;
+        }
+
+        /* Back Button Styling */
+        .back-button-container {
+            padding: 10px;
+            text-align: left; /* Align left */
+        }
+        .back-button {
+            text-decoration: none;
+            font-size: 1rem; /* Adjusted size */
+            font-weight: bold;
+            color: #333;
+            border: 1px solid #ccc; /* Adjusted border */
+            padding: 8px 15px; /* Adjusted padding */
+            border-radius: 5px; /* Adjusted border-radius */
+            background: #f2f2f2;
+            display: inline-block;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .back-button:hover {
+            background-color: #e0e0e0;
+            border-color: #bbb;
+        }
+
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            main {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            button {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            .controls button {
+                 padding: 0.6rem 1rem;
+                 font-size: 0.9rem;
+                 max-width: none; /* Remove max-width on small screens */
+                 flex-grow: 1; /* Allow buttons to take equal width */
+            }
+            .faq-question, .faq-answer {
+                padding: 12px 15px;
+            }
+             .faq-item[open] .faq-answer {
+                padding: 12px 15px;
+            }
+        }
+         @media (max-width: 480px) {
+             .controls {
+                 flex-direction: column; /* Stack buttons vertically */
+                 gap: 8px;
+             }
+             .controls button {
+                 width: 100%; /* Full width when stacked */
+             }
+         }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Back to Home
+            </a>
+        </div>
+
+<header>
+    <h1>QR Code Generator</h1>
+    <p>Generate and customize your QR codes easily.</p>
+</header>
+
+<main>
+    <form id="qr-generator-form" aria-label="QR code generator form">
+        <h2>Generate Your QR Code</h2>
+        <div class="form-group">
+            <label for="qrType">Data Type:</label>
+            <select id="qrType" required>
+                <option value="url">URL</option>
+                <option value="text">Text</option>
+                <option value="email">Email</option>
+                <option value="phone">Phone Number</option>
+                <option value="wifi">Wi-Fi Credentials</option>
+                <option value="vcard">vCard</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="qrInput">Enter Data:</label>
+            <input type="text" id="qrInput" placeholder="Enter your data here" required />
+        </div>
+         <div class="form-group">
+            <label for="qrColor">QR Code Color:</label>
+            <input type="color" id="qrColor" value="#000000" />
+        </div>
+         <div class="form-group">
+            <label for="bgColor">Background Color:</label>
+            <input type="color" id="bgColor" value="#ffffff" />
+        </div>
+        <button type="submit" id="generateBtn">Generate QR Code</button>
+    </form>
+
+    <div class="qr-code" id="qrCode">
+        <!-- QR code will be generated here -->
+    </div>
+
+    <div class="controls" id="downloadControls" style="display: none;">
+        <button id="downloadPngBtn">Download as PNG</button>
+        <button id="downloadSvgBtn">Download as SVG</button>
+        <button id="downloadPdfBtn">Download as PDF</button>
+    </div>
+
+    <section class="info-section">
+        <h2>About This Tool</h2>
+        <p>
+            This online QR Code Generator allows you to quickly create custom QR codes for various types of information, including website URLs, plain text messages, email addresses, phone numbers, Wi-Fi network details, and vCards. You can customize the colors of the QR code and its background. Once generated, you can download the QR code image in PNG, SVG, or PDF formats for use anywhere you need.
+        </p>
+    </section>
+
+    <section class="info-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary class="faq-question">
+                    What is a QR code?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>A QR code (Quick Response code) is a type of matrix barcode (or two-dimensional barcode) that can be read easily by a digital device and which stores information as a series of pixels in a square-shaped grid.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    How do I generate a QR code?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Select the type of data you want to encode (URL, text, email, etc.), enter the data into the input field, optionally choose colors, and click "Generate QR Code".</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    Can I customize the QR code colors?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Yes, you can select the foreground (code) color and the background color using the color pickers provided.</p>
+                </div>
+            </details>
+
+             <details class="faq-item">
+                <summary class="faq-question">
+                    What data types are supported?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>This generator supports URLs, plain text, email addresses, phone numbers, Wi-Fi credentials, and vCards.</p>
+                </div>
+            </details>
+
+             <details class="faq-item">
+                <summary class="faq-question">
+                    How can I download the generated QR code?
+                    <span class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>After generating the QR code, buttons will appear below it allowing you to download the image in PNG or SVG format, or as a PDF.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2023 Your Site Name. All rights reserved.</p> <!-- Updated footer -->
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Updated jsPDF version -->
+<script>
+    const form = document.getElementById('qr-generator-form');
+    const qrInput = document.getElementById('qrInput');
+    const qrType = document.getElementById('qrType');
+    const qrCodeDiv = document.getElementById('qrCode');
+    const qrColor = document.getElementById('qrColor');
+    const bgColor = document.getElementById('bgColor');
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadControls = document.getElementById('downloadControls');
+    const downloadPngBtn = document.getElementById('downloadPngBtn');
+    const downloadSvgBtn = document.getElementById('downloadSvgBtn');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+
+    // Function to generate QR code
+    function generateQrCode() {
+        const dataType = qrType.value;
+        const data = qrInput.value.trim(); // Trim whitespace
+        const color = qrColor.value;
+        const background = bgColor.value;
+
+        if (!data) {
+            alert('Please enter data to generate a QR code.');
+            qrCodeDiv.innerHTML = ''; // Clear previous QR code
+            downloadControls.style.display = 'none'; // Hide download buttons
+            return;
+        }
+
+        let formattedData = data;
+
+        // Format data based on type (basic examples)
+        switch(dataType) {
+            case 'email':
+                formattedData = `mailto:${data}`;
+                break;
+            case 'phone':
+                formattedData = `tel:${data}`;
+                break;
+            case 'wifi':
+                // Basic Wi-Fi format: WIFI:S:<SSID>;T:<WPA|WEP|nopass>;P:<PASSWORD>;H:<true|false>;
+                // This requires more specific input fields for SSID, type, password, hidden
+                // For simplicity, assuming data is in a specific format or just encoding the string
+                // A more robust implementation would need separate inputs
+                console.warn("Wi-Fi QR code generation requires specific formatting (SSID, type, password). Encoding raw input.");
+                formattedData = `WIFI:S:${data};;`; // Simplified example
+                break;
+            case 'vcard':
+                 // vCard format is complex. Assuming data is a raw vCard string.
+                 // A proper vCard generator would need many input fields.
+                 console.warn("vCard QR code generation requires specific formatting. Encoding raw input.");
+                 // Example basic vCard: BEGIN:VCARD\nVERSION:3.0\nFN:John Doe\nEND:VCARD
+                 formattedData = data; // Assuming data is the full vCard string
+                 break;
+            case 'url':
+                // Ensure URL has a protocol if missing
+                if (!/^https?:\/\//i.test(data) && data.indexOf('.') !== -1) {
+                    formattedData = 'http://' + data;
+                }
+                break;
+            case 'text':
+            default:
+                formattedData = data;
+                break;
+        }
+
+
+        qrCodeDiv.innerHTML = ''; // Clear previous QR code
+
+        // Use jQuery.qrcode to generate the canvas
+        $('#qrCode').qrcode({
+            text: formattedData,
+            width: 250, // Increased size slightly
+            height: 250, // Increased size slightly
+            background: background,
+            foreground: color,
+            // render: 'canvas' is default, can also be 'svg'
+        });
+
+        // Check if canvas was created successfully
+        const canvas = qrCodeDiv.querySelector('canvas');
+        if (canvas) {
+             downloadControls.style.display = 'flex'; // Show download buttons
+        } else {
+             downloadControls.style.display = 'none'; // Hide download buttons if generation failed
+        }
+    }
+
+    // Event listener for form submission
+    form.addEventListener('submit', e => {
+        e.preventDefault(); // Prevent default form submission
+        generateQrCode();
+    });
+
+    // Event listeners for input changes to regenerate (optional, can be performance heavy)
+    // qrInput.addEventListener('input', generateQrCode);
+    // qrType.addEventListener('change', generateQrCode);
+    // qrColor.addEventListener('input', generateQrCode);
+    // bgColor.addEventListener('input', generateQrCode);
+
+
+    // Download as PNG
+    downloadPngBtn.addEventListener('click', () => {
+        const canvas = qrCodeDiv.querySelector('canvas');
+        if (!canvas) return; // Exit if no canvas exists
+
+        const pngUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = 'qrcode.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    // Download as SVG (requires the QR code to be rendered as SVG initially, or convert canvas)
+    // The current jquery.qrcode renders to canvas by default.
+    // To download as SVG, we need to either:
+    // 1. Change render option to 'svg' in qrcode({... render: 'svg' ...})
+    // 2. Use a library to convert canvas to SVG (more complex)
+    // Let's update the generate function to render SVG if SVG download is requested, or provide a note.
+    // For simplicity with the current library, let's assume we render canvas and provide SVG download if possible.
+    // The jquery.qrcode library *can* render SVG, let's update the generate function to use SVG render.
+
+    function generateQrCodeSvg() {
+         const dataType = qrType.value;
+        const data = qrInput.value.trim(); // Trim whitespace
+        const color = qrColor.value;
+        const background = bgColor.value;
+
+        if (!data) {
+            alert('Please enter data to generate a QR code.');
+            qrCodeDiv.innerHTML = ''; // Clear previous QR code
+            downloadControls.style.display = 'none'; // Hide download buttons
+            return;
+        }
+
+        let formattedData = data;
+
+        // Format data based on type (basic examples)
+        switch(dataType) {
+            case 'email':
+                formattedData = `mailto:${data}`;
+                break;
+            case 'phone':
+                formattedData = `tel:${data}`;
+                break;
+            case 'wifi':
+                console.warn("Wi-Fi QR code generation requires specific formatting (SSID, type, password). Encoding raw input.");
+                formattedData = `WIFI:S:${data};;`; // Simplified example
+                break;
+            case 'vcard':
+                 console.warn("vCard QR code generation requires specific formatting. Encoding raw input.");
+                 formattedData = data; // Assuming data is the full vCard string
+                 break;
+            case 'url':
+                if (!/^https?:\/\//i.test(data) && data.indexOf('.') !== -1) {
+                    formattedData = 'http://' + data;
+                }
+                break;
+            case 'text':
+            default:
+                formattedData = data;
+                break;
+        }
+
+        qrCodeDiv.innerHTML = ''; // Clear previous QR code
+
+        // Render as SVG
+        $('#qrCode').qrcode({
+            text: formattedData,
+            width: 250,
+            height: 250,
+            background: background,
+            foreground: color,
+            render: 'svg' // Render as SVG
+        });
+
+         const svg = qrCodeDiv.querySelector('svg');
+        if (svg) {
+             downloadControls.style.display = 'flex'; // Show download buttons
+        } else {
+             downloadControls.style.display = 'none'; // Hide download buttons if generation failed
+        }
+    }
+
+    // Update generate button to render SVG
+    form.removeEventListener('submit', e=> { e.preventDefault(); calculateTax(); }); // Remove old listener if any
+    form.addEventListener('submit', e=> {
+        e.preventDefault();
+        generateQrCodeSvg(); // Generate SVG on submit
+    });
+
+
+    downloadSvgBtn.addEventListener('click', () => {
+        const svg = qrCodeDiv.querySelector('svg');
+        if (!svg) {
+            alert('QR code not available as SVG. Please generate it first.');
+            return;
+        }
+
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'qrcode.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // Download as PDF
+    downloadPdfBtn.addEventListener('click', () => {
+        const canvas = qrCodeDiv.querySelector('canvas'); // PDF from canvas is often simpler
+        const svg = qrCodeDiv.querySelector('svg');
+
+        let imgData = null;
+        let imgWidth = 0;
+        let imgHeight = 0;
+
+        if (canvas) {
+             imgData = canvas.toDataURL('image/png');
+             imgWidth = canvas.width;
+             imgHeight = canvas.height;
+        } else if (svg) {
+            // Convert SVG to canvas or use a library that supports SVG in jsPDF
+            // For simplicity, let's regenerate as canvas temporarily for PDF
+             generateQrCode(); // Regenerate as canvas
+             const tempCanvas = qrCodeDiv.querySelector('canvas');
+             if (tempCanvas) {
+                 imgData = tempCanvas.toDataURL('image/png');
+                 imgWidth = tempCanvas.width;
+                 imgHeight = tempCanvas.height;
+                 // Restore SVG if needed, or just leave canvas
+                 // generateQrCodeSvg(); // Uncomment to switch back to SVG display
+             } else {
+                 alert('Could not generate image data for PDF.');
+                 return;
+             }
+        } else {
+            alert('No QR code image available to download.');
+            return;
+        }
+
+
+        if (!imgData) {
+             alert('Could not generate image data for PDF.');
+             return;
+        }
+
+        const { jsPDF } = window.jspdf; // Access jsPDF from the window object
+        const doc = new jsPDF();
+
+        // Calculate dimensions to fit PDF page while maintaining aspect ratio
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        const pdfHeight = doc.internal.pageSize.getHeight();
+        const margin = 10; // px
+        const maxWidth = pdfWidth - 2 * margin;
+        const maxHeight = pdfHeight - 2 * margin;
+
+        let finalWidth = imgWidth;
+        let finalHeight = imgHeight;
+
+        if (finalWidth > maxWidth) {
+            finalHeight = (finalHeight * maxWidth) / finalWidth;
+            finalWidth = maxWidth;
+        }
+
+        if (finalHeight > maxHeight) {
+            finalWidth = (finalWidth * maxHeight) / finalHeight;
+            finalHeight = maxHeight;
+        }
+
+        // Center the image on the page
+        const x = (pdfWidth - finalWidth) / 2;
+        const y = (pdfHeight - finalHeight) / 2;
+
+
+        doc.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+        doc.save('qrcode.pdf');
+
+        // After generating PDF from canvas, switch back to SVG display if that's the default
+        // generateQrCodeSvg(); // Uncomment if you want SVG display after PDF download
+    });
+
+
+    // FAQ Toggle Script
+    document.querySelectorAll('.faq-item summary').forEach(summary => {
+        summary.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default toggle
+            const detail = this.parentElement;
+            if (detail.hasAttribute('open')) {
+                detail.removeAttribute('open');
+            } else {
+                detail.setAttribute('open', '');
+            }
+        });
+    });
+
+    // Initial state: hide download buttons
+    downloadControls.style.display = 'none';
+
+</script>
+
+</body>
+</html>

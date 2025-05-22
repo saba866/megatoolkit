@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate mutual fund returns with our advanced calculator. Get accurate estimates for both lump sum and SIP investments with detailed growth projections and charts.">
+    <meta name="keywords" content="mutual fund calculator, SIP calculator, investment calculator, mutual fund returns, investment planning, financial calculator">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Mutual Fund Calculator - Investment Returns Calculator">
+    <meta property="og:description" content="Calculate potential returns on your mutual fund investments with our advanced calculator. Plan your investments better with accurate projections.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mutual Fund Calculator - Investment Returns Calculator">
+    <meta name="twitter:description" content="Calculate potential returns on your mutual fund investments with our advanced calculator.">
+    <title>Mutual Fund Calculator - Investment Returns Calculator | YourSiteName</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .investment-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 6px;
+            background: #f8fafc;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            height: 300px;
+        }
+
+        details {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        summary {
+            font-weight: 500;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        details p {
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .calculator-card {
+                padding: 20px;
+            }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Mutual Fund Calculator",
+        "description": "Calculate potential returns on mutual fund investments with detailed projections",
+        "url": "https://yoursite.com/mutualfund.html",
+        "applicationCategory": "FinanceApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0"
+        },
+        "featureList": [
+            "Lump sum investment calculator",
+            "SIP investment calculator",
+            "Investment growth visualization",
+            "Detailed return projections"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+            <!-- Back Button -->
+            <div style="margin-bottom: 20px;">
+                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                    <span style="margin-right: 5px;">←</span> Back to Home
+                </a>
+            </div>
+        <div class="calculator-card">
+            <h1>Mutual Fund Calculator</h1>
+            
+            <section class="about-section">
+                <h2>About This Tool</h2>
+                <p>Calculate potential returns on your mutual fund investments. Choose between lump sum and SIP investments, set your investment amount, expected return rate, and duration to see detailed projections of your investment growth.</p>
+            </section>
+
+            <form class="investment-form" id="calculator-form">
+                <div class="form-group">
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="investmentType" value="lumpSum" checked> Lump Sum
+                        </label>
+                        <label>
+                            <input type="radio" name="investmentType" value="sip"> SIP (Monthly)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="investmentAmount">Investment Amount (₹)</label>
+                    <input type="number" id="investmentAmount" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="annualReturnRate">Expected Annual Return (%)</label>
+                    <input type="number" id="annualReturnRate" min="0.1" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="investmentDuration">Investment Duration (Years)</label>
+                    <input type="number" id="investmentDuration" min="1" required>
+                </div>
+
+                <button type="submit">Calculate Returns</button>
+            </form>
+
+            <div class="result" id="result"></div>
+            <div class="chart-container">
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </div>
+
+        <section class="faq-section calculator-card">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What's the difference between Lump Sum and SIP investment?</summary>
+                <p>Lump Sum is a one-time investment where you invest a large amount at once. SIP (Systematic Investment Plan) involves investing a fixed amount regularly (usually monthly) over a period of time.</p>
+            </details>
+            <details>
+                <summary>How is the return calculated?</summary>
+                <p>For Lump Sum investments, we use compound interest formula: A = P(1 + r)^t. For SIP, we calculate monthly compounding returns on each installment. The calculations assume returns are reinvested.</p>
+            </details>
+            <details>
+                <summary>Are these returns guaranteed?</summary>
+                <p>No, mutual fund returns are not guaranteed and depend on market performance. This calculator provides estimates based on your expected return rate input. Past performance doesn't guarantee future returns.</p>
+            </details>
+            <details>
+                <summary>Should I choose Lump Sum or SIP?</summary>
+                <p>It depends on your investment goals and available capital. SIP helps in averaging out market volatility and is suitable for regular income earners. Lump Sum might be better when you have a large amount and believe it's a good time to invest.</p>
+            </details>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        document.getElementById('calculator-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const investmentType = document.querySelector('input[name="investmentType"]:checked').value;
+            const investmentAmount = parseFloat(document.getElementById('investmentAmount').value);
+            const annualReturnRate = parseFloat(document.getElementById('annualReturnRate').value) / 100;
+            const investmentDuration = parseInt(document.getElementById('investmentDuration').value);
+
+            if (!validateInputs(investmentAmount, annualReturnRate, investmentDuration)) {
+                document.getElementById('result').innerHTML = '<p class="error">Please enter valid investment details.</p>';
+                return;
+            }
+
+            const results = calculateReturns(investmentType, investmentAmount, annualReturnRate, investmentDuration);
+            displayResults(results);
+            updateChart(results.chartData);
+        });
+
+        function validateInputs(amount, rate, duration) {
+            return !isNaN(amount) && !isNaN(rate) && !isNaN(duration) &&
+                   amount > 0 && rate >= 0 && duration > 0;
+        }
+
+        function calculateReturns(type, amount, rate, duration) {
+            let totalInvested = 0;
+            let totalValue = 0;
+            let chartData = {
+                labels: [],
+                values: []
+            };
+
+            if (type === 'lumpSum') {
+                totalInvested = amount;
+                totalValue = amount * Math.pow(1 + rate, duration);
+
+                for (let year = 0; year <= duration; year++) {
+                    chartData.labels.push(`Year ${year}`);
+                    chartData.values.push(amount * Math.pow(1 + rate, year));
+                }
+            } else { // SIP
+                const monthlyRate = rate / 12;
+                const months = duration * 12;
+                totalInvested = amount * months;
+
+                let runningBalance = 0;
+                for (let month = 1; month <= months; month++) {
+                    runningBalance = (runningBalance + amount) * (1 + monthlyRate);
+                    
+                    if (month % 12 === 0 || month === months) {
+                        chartData.labels.push(`Year ${Math.floor(month/12)}`);
+                        chartData.values.push(runningBalance);
+                    }
+                }
+                totalValue = runningBalance;
+            }
+
+            return {
+                totalInvested: totalInvested,
+                totalValue: totalValue,
+                totalReturns: totalValue - totalInvested,
+                chartData: chartData
+            };
+        }
+
+        function displayResults(results) {
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            });
+
+            document.getElementById('result').innerHTML = `
+                <h3>Investment Summary</h3>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <strong>Total Invested:</strong>
+                        <span>${formatter.format(results.totalInvested)}</span>
+                    </div>
+                    <div class="result-item">
+                        <strong>Total Returns:</strong>
+                        <span>${formatter.format(results.totalReturns)}</span>
+                    </div>
+                    <div class="result-item">
+                        <strong>Total Value:</strong>
+                        <span>${formatter.format(results.totalValue)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        let chart = null;
+        function updateChart(chartData) {
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Investment Value',
+                        data: chartData.values,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    return new Intl.NumberFormat('en-IN', {
+                                        style: 'currency',
+                                        currency: 'INR',
+                                        maximumFractionDigits: 0
+                                    }).format(value);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return new Intl.NumberFormat('en-IN', {
+                                        style: 'currency',
+                                        currency: 'INR',
+                                        maximumFractionDigits: 0
+                                    }).format(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

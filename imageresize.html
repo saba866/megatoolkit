@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Resize images (JPG, PNG, GIF) online for free. Easily change image dimensions by pixels with our simple and fast image resizer tool." />
+  <meta name="keywords" content="image resizer, resize image, change image size, resize photo, online image resizer, free image resizer, pixel resize" />
+  <meta name="author" content="YourSiteName" />
+  <meta name="robots" content="index, follow" />
+  <title>Free Online Image Resizer | YourSiteName</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --text-color: #1f2937;
+        --border-color: #e5e7eb;
+        --background-soft: #f8fafc;
+        --background-body: #f4f7f9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-body);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin: 1.5rem 0 1rem;
+        color: var(--text-color);
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+    }
+
+    .about-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--background-soft);
+        border-radius: 8px;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .form-group {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-button {
+      cursor: pointer;
+      background: var(--primary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+      display: inline-block; /* Make label behave like a button */
+    }
+
+    .upload-button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .drop-area {
+      border: 2px dashed var(--primary-color);
+      padding: 30px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      user-select: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .drop-area.dragover {
+      background-color: var(--background-soft);
+      border-color: var(--primary-hover);
+    }
+
+    .resize-controls {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1rem;
+      align-items: center;
+    }
+
+    .resize-controls .form-group {
+        width: auto; /* Allow inputs to size based on content/max-width */
+        max-width: 120px; /* Limit input width */
+        flex-direction: row; /* Label and input side-by-side */
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .resize-controls input[type="number"] {
+      width: 80px;
+      padding: 8px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .resize-controls input[type="number"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    }
+
+    button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      min-width: 140px;
+      user-select: none;
+    }
+    button:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    button:disabled {
+      background: #cccccc;
+      box-shadow: none;
+      color: #666666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .image-container {
+      margin: 20px auto;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background: var(--background-soft);
+      border-radius: 8px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      user-select: none;
+      -webkit-user-drag: none;
+      margin-top: 1rem;
+    }
+
+    .image-container p {
+        color: var(--text-color);
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    details {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--background-soft);
+    }
+
+    summary {
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.5rem 0;
+        color: var(--text-color);
+    }
+
+    details p {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+    }
+
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .card {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      h3 {
+        font-size: 1.1rem;
+      }
+      .upload-button, button {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+      }
+      .resize-controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .resize-controls .form-group {
+          width: 100%;
+          max-width: 200px;
+          justify-content: center;
+      }
+      .resize-controls input[type="number"] {
+        width: 80px;
+      }
+      .drop-area {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Back to Home
+            </a>
+        </div>
+        <div class="card">
+            <h1>Image Resizer</h1>
+
+            <section class="about-section">
+                <h2>About This Tool</h2>
+                <p>Resize your images quickly and easily online. Simply upload your image, enter the desired width and height in pixels, and download the resized version. Perfect for adjusting images for websites, social media, or email.</p>
+            </section>
+
+            <section class="form-section" aria-label="Image upload and resize settings">
+                <div class="form-group">
+                    <label for="fileInput" class="upload-button">Select Image</label>
+                    <input type="file" id="fileInput" accept="image/*" aria-label="Upload image" />
+                </div>
+                <div id="dropArea" class="drop-area" tabindex="0" role="button" aria-label="Drag and drop your image here or click to upload">
+                    Drag &amp; Drop your image here or click to select file
+                </div>
+
+                <div class="image-container" aria-label="Original Image">
+                    <h3>Original Image</h3>
+                    <img id="originalImage" src="" alt="Original uploaded image" style="display:none;" />
+                    <p id="noOriginalText" style="color:#666;">No image loaded</p>
+                    <p id="originalSize" style="color:#333;"></p>
+                </div>
+
+                <div class="resize-controls">
+                    <div class="form-group">
+                        <label for="widthInput">Width (px)</label>
+                        <input type="number" id="widthInput" min="1" aria-describedby="widthHelp" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="heightInput">Height (px)</label>
+                        <input type="number" id="heightInput" min="1" aria-describedby="heightHelp" disabled />
+                    </div>
+                    <button id="resizeButton" disabled>Resize Image</button>
+                    <button id="downloadButton" disabled>Download Resized Image</button>
+                </div>
+
+                <div class="image-container" aria-label="Resized Image Preview" style="margin-top: 20px;">
+                    <h3>Resized Image Preview</h3>
+                    <img id="resizedImage" src="" alt="Resized image preview" style="display:none;" />
+                    <p id="noResizedText" style="color:#666;">No resized image yet</p>
+                    <p id="resizedSize" style="color:#333;"></p>
+                </div>
+            </section>
+        </div>
+
+        <div class="card">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What image file types are supported?</summary>
+                <p>We support common image formats like JPG, PNG, and GIF.</p>
+            </details>
+            <details>
+                <summary>How do I resize an image?</summary>
+                <p>Upload your image, enter the desired width and height in the input fields, and click the "Resize Image" button. A preview of the resized image will appear below.</p>
+            </details>
+            <details>
+                <summary>Will resizing affect image quality?</summary>
+                <p>Resizing can sometimes affect quality, especially when significantly increasing the size (upscaling). Our tool aims to maintain quality, but for best results, avoid extreme upscaling.</p>
+            </details>
+            <details>
+                <summary>Is my data safe?</summary>
+                <p>Yes, your files are processed directly in your browser. They are not uploaded to our servers, ensuring your privacy and data security.</p>
+            </details>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What image file types are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We support common image formats like JPG, PNG, and GIF."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I resize an image?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Upload your image, enter the desired width and height in the input fields, and click the \"Resize Image\" button. A preview of the resized image will appear below."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Will resizing affect image quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Resizing can sometimes affect quality, especially when significantly increasing the size (upscaling). Our tool aims to maintain quality, but for best results, avoid extreme upscaling."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is my data safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, your files are processed directly in your browser. They are not uploaded to our servers, ensuring your privacy and data security."
+        }
+      }]
+    }
+    </script>
+
+  <script>
+    (function() {
+      const fileInput = document.getElementById('fileInput');
+      const dropArea = document.getElementById('dropArea');
+
+      const originalImage = document.getElementById('originalImage');
+      const noOriginalText = document.getElementById('noOriginalText');
+      const originalSizeText = document.getElementById('originalSize');
+
+      const resizedImage = document.getElementById('resizedImage');
+      const noResizedText = document.getElementById('noResizedText');
+      const resizedSizeText = document.getElementById('resizedSize');
+
+      const widthInput = document.getElementById('widthInput');
+      const heightInput = document.getElementById('heightInput');
+      const resizeButton = document.getElementById('resizeButton');
+      const downloadButton = document.getElementById('downloadButton');
+
+      let imgObj = new Image();
+      let resizedBlobUrl = null;
+
+      function revokeBlobUrl() {
+        if (resizedBlobUrl) {
+          URL.revokeObjectURL(resizedBlobUrl);
+          resizedBlobUrl = null;
+        }
+      }
+
+      function updateSizeText(element, blob) {
+        if (!blob) {
+          element.textContent = '';
+          return;
+        }
+        const kb = blob.size / 1024;
+        element.textContent = `Size: ${kb.toFixed(2)} KB`;
+      }
+
+      function resetUI() {
+        originalImage.style.display = 'none';
+        noOriginalText.style.display = 'block';
+        originalSizeText.textContent = '';
+        resizedImage.style.display = 'none';
+        noResizedText.style.display = 'block';
+        resizedSizeText.textContent = '';
+
+        downloadButton.disabled = true;
+        resizeButton.disabled = true;
+        widthInput.disabled = true;
+        heightInput.disabled = true;
+
+        widthInput.value = '';
+        heightInput.value = '';
+
+        revokeBlobUrl();
+      }
+
+      function loadImage(file) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file.');
+          resetUI();
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e){
+          imgObj = new Image();
+          imgObj.onload = function(){
+            originalImage.src = e.target.result;
+            originalImage.style.display = 'block';
+            noOriginalText.style.display = 'none';
+
+            updateSizeText(originalSizeText, file);
+
+            widthInput.value = imgObj.width;
+            heightInput.value = imgObj.height;
+
+            widthInput.disabled = false;
+            heightInput.disabled = false;
+            resizeButton.disabled = false;
+
+            resizedImage.style.display = 'none';
+            noResizedText.style.display = 'block';
+            resizedSizeText.textContent = '';
+            downloadButton.disabled = true;
+
+            revokeBlobUrl();
+          };
+          imgObj.onerror = () => {
+              alert('Error loading image.');
+              resetUI();
+          };
+          imgObj.src = e.target.result;
+        }
+        reader.onerror = () => {
+            alert('Error reading file.');
+            resetUI();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      fileInput.addEventListener('change', e => {
+        if (e.target.files.length > 0) {
+          loadImage(e.target.files[0]);
+        }
+      });
+
+      dropArea.addEventListener('click', () => fileInput.click());
+      dropArea.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
+      dropArea.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
+      });
+      dropArea.addEventListener('dragleave', e => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+      });
+      dropArea.addEventListener('drop', e => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        if(e.dataTransfer.files.length > 0) {
+          loadImage(e.dataTransfer.files[0]);
+        }
+      });
+
+      resizeButton.addEventListener('click', () => {
+        const w = Number(widthInput.value);
+        const h = Number(heightInput.value);
+        if (!w || !h || w <= 0 || h <= 0) {
+          alert('Please enter valid width and height values (> 0)');
+          return;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // Draw image, preserving aspect ratio if only one dimension is set (optional, current code stretches)
+        // ctx.drawImage(imgObj, 0, 0, w, h); // This stretches the image
+
+        // To maintain aspect ratio if only one value is changed:
+        // let targetWidth = w;
+        // let targetHeight = h;
+        // if (w && !h) {
+        //     targetHeight = imgObj.height * (w / imgObj.width);
+        // } else if (h && !w) {
+        //     targetWidth = imgObj.width * (h / imgObj.height);
+        // }
+        // canvas.width = targetWidth;
+        // canvas.height = targetHeight;
+        ctx.drawImage(imgObj, 0, 0, w, h); // Using user-provided w, h
+
+        // Determine output format (use original type if possible, default to PNG)
+        let outputMimeType = 'image/png'; // Default to PNG for quality
+        let outputExtension = 'png';
+        if (imgObj.src.startsWith('data:image/jpeg')) {
+            outputMimeType = 'image/jpeg';
+            outputExtension = 'jpg';
+        } else if (imgObj.src.startsWith('data:image/gif')) {
+             // Can convert GIF to PNG or JPG on canvas
+             outputMimeType = 'image/png'; // PNG is better for preserving details than JPG for GIFs
+             outputExtension = 'png';
+        }
+        // SVG is not handled by canvas in this way, would need different logic
+
+        canvas.toBlob(blob => {
+          if(!blob) {
+            alert('Error resizing image.');
+            return;
+          }
+          revokeBlobUrl();
+          resizedBlobUrl = URL.createObjectURL(blob);
+          resizedImage.src = resizedBlobUrl;
+          resizedImage.style.display = 'block';
+          noResizedText.style.display = 'none';
+
+          updateSizeText(resizedSizeText, blob);
+          downloadButton.disabled = false;
+
+          // Set download filename
+          const originalFileName = fileInput.files[0].name;
+          const baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+          downloadButton.dataset.downloadName = `${baseName}-resized.${outputExtension}`;
+
+        }, outputMimeType, 0.9); // Use 0.9 quality for JPG
+      });
+
+      downloadButton.addEventListener('click', () => {
+        if(!resizedBlobUrl) return;
+        const a = document.createElement('a');
+        a.href = resizedBlobUrl;
+        a.download = downloadButton.dataset.downloadName || 'resized-image.png'; // Use stored name or default
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // Revoke Object URL after click to release memory
+        setTimeout(() => URL.revokeObjectURL(resizedBlobUrl), 10000);
+        resizedBlobUrl = null; // Clear the stored URL
+      });
+
+      resetUI();
+    })();
+  </script>
+</body>
+</html>
+
