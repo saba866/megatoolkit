@@ -3,399 +3,729 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Create professional invoices instantly with our free invoice generator. Generate, customize, and download invoices in PDF format for your business needs.">
-    <meta name="keywords" content="invoice generator, free invoice maker, professional invoice template, business invoice generator, PDF invoice creator">
-    <title>Invoice Generator - Create Professional Invoices | YourSiteName</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+    <meta name="description" content="Advanced Invoice Generator for freelancers and small businesses. Create, manage, and download invoices easily.">
+    <title>Advanced Invoice Generator</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
+            margin: 0;
             padding: 20px;
-            background: #f5f5f5;
+            background-color: #f4f4f4;
         }
-
         .container {
             max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1.2rem;
-            text-align: center;
-            color: #2d3748;
+        h1, h2, h3 {
+            color: #333;
         }
-
-        .form-section {
-            display: grid;
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        label {
-            font-weight: 500;
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-
-        input, textarea {
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+            box-sizing: border-box; /* Add this to include padding and border in the element's total width */
         }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #4F46E5;
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
-        }
-
         button {
-            background: #4F46E5;
+            padding: 10px 15px;
+            background-color: #28a745;
             color: white;
-            padding: 10px 20px;
             border: none;
             border-radius: 4px;
-            font-size: 0.95rem;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            margin-right: 10px; /* Add some spacing between buttons */
         }
-
+        button:last-child {
+            margin-right: 0;
+        }
         button:hover {
-            background: #4338CA;
-            transform: translateY(-1px);
+            background-color: #218838;
         }
-
-        .line-items {
-            margin: 16px 0;
-        }
-
-        .line-item {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 12px;
-            margin-bottom: 12px;
-            align-items: start;
-        }
-
-        .remove-item {
-            background: #EF4444;
-            padding: 8px;
-        }
-
-        .remove-item:hover {
-            background: #DC2626;
-        }
-
-        #preview-section {
-            margin-top: 24px;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-        }
-
-        .preview-controls {
+        .item-row {
             display: flex;
-            gap: 12px;
-            margin-top: 16px;
+            justify-content: space-between;
+            margin: 10px 0;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
         }
-
-        .download-pdf {
-            background: #10B981;
+        .item-row input {
+            flex: 1;
+            margin-right: 5px;
+            min-width: 100px; /* Ensure inputs have a minimum width */
+            box-sizing: border-box; /* Add this */
         }
-
-        .download-pdf:hover {
-            background: #059669;
+        .item-row input:last-child {
+            margin-right: 0;
         }
+        .item-row button {
+             flex: 0 0 auto; /* Prevent button from growing */
+             margin-right: 0;
+        }
+        .faq {
+            margin-top: 20px;
+        }
+        .faq h3 {
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .faq-content {
+            display: none;
+            margin: 5px 0 15px 0;
+        }
+        /* Styles for Invoice Preview */
+        #invoicePreview {
+            display: none; /* Hidden by default */
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        #invoicePreview h1, #invoicePreview h2, #invoicePreview h3 {
+            color: #333;
+        }
+        #invoicePreview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #invoicePreview th, #invoicePreview td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        #invoicePreview th {
+            background-color: #f2f2f2;
+        }
+        #invoicePreview .summary-table {
+            width: auto;
+            margin-top: 20px;
+            float: right;
+        }
+        #invoicePreview .summary-table td {
+            border: none;
+            padding: 5px;
+        }
+        #invoicePreview .payment-details {
+            margin-top: 20px;
+        }
+        #invoicePreview .payment-details p {
+            margin: 5px 0;
+        }
+        #invoicePreview .notes, #invoicePreview .terms {
+            margin-top: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        #invoicePreview .signature {
+            margin-top: 30px;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        /* Hide form elements in preview */
+        #invoicePreview input,
+        #invoicePreview textarea,
+        #invoicePreview select,
+        #invoicePreview .item-row button {
+            display: none !important;
+        }
+        #invoicePreview .item-row input[readonly] {
+             display: inline-block !important; /* Keep the total field visible */
+             border: none !important;
+             padding: 0 !important;
+             margin: 0 !important;
+             width: auto !important;
+        }
+         #invoicePreview .item-row {
+            display: table-row !important; /* Change flex to table-row for preview */
+        }
+        #invoicePreview .item-row > * {
+            display: table-cell !important; /* Change flex items to table-cells */
+            padding: 8px !important;
+            border: 1px solid #ddd !important;
+        }
+         #invoicePreview .item-row input[type="text"],
+         #invoicePreview .item-row input[type="number"] {
+             width: auto !important; /* Adjust width for table cells */
+             margin: 0 !important;
+             padding: 0 !important;
+             border: none !important;
+         }
+         #invoicePreview .item-row input[placeholder="Total"] {
+             font-weight: bold;
+         }
 
-        @media (max-width: 640px) {
-            .line-item {
-                grid-template-columns: 1fr;
-            }
-            
+        /* Responsive Styles */
+        @media (max-width: 600px) {
             .container {
                 padding: 10px;
             }
-            
-            .card {
-                padding: 16px;
+            .item-row {
+                flex-direction: column; /* Stack item inputs vertically */
             }
+            .item-row input {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+             #invoicePreview .invoice-header,
+             #invoicePreview .invoice-parties {
+                 flex-direction: column; /* Stack header/parties vertically */
+                 align-items: flex-start;
+             }
+             #invoicePreview .invoice-parties .invoice-to {
+                 margin-top: 20px; /* Add space between sections */
+             }
+             #invoicePreview .summary-table {
+                 float: none; /* Remove float */
+                 width: 100%; /* Make summary table full width */
+                 margin-top: 20px;
+             }
         }
+
+        /* Style for Help & Support links */
+        .help-support a {
+            margin-right: 15px; /* Add space between links */
+        }
+         .help-support a:last-child {
+            margin-right: 0;
+        }
+
+
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HG3R9KCKGR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HG3R9KCKGR');
-</script>
+     <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+ <!-- Back Button -->
+ <div style="margin-bottom: 20px;">
+    <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
+        <span style="margin-right: 5px;">←</span> Back to Home
+    </a>
+</div>
 <body>
-    <!-- Keep existing HTML structure until the form -->
-    <div class="container">
-            <!-- Back Button -->
-            <div style="margin-bottom: 20px;">
-                <a href="index.html" style="text-decoration: none; font-size: 16px; color: #3498db; display: inline-flex; align-items: center;">
-                    <span style="margin-right: 5px;">←</span> Back to Home
-                </a>
-            </div>
-        <div class="card">
-            <h1>Invoice Generator</h1>
 
-            <section class="about-section">
-                <h2>About This Tool</h2>
-                <p>Create professional invoices quickly and easily. Add your business details, client information, and line items. Preview your invoice and download it as a PDF. Perfect for freelancers, small businesses, and professionals.</p>
-            </section>
+<div class="container">
+    <h1>Advanced Invoice Generator</h1>
 
-            <form id="invoice-form" class="form-section">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="business-name">Business Name</label>
-                        <input type="text" id="business-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="invoice-number">Invoice Number</label>
-                        <input type="text" id="invoice-number" required>
-                    </div>
-                </div>
+    <h2>Upload Business Logo</h2>
+    <input type="file" id="logoUpload" accept="image/*" onchange="previewLogo(event)">
+    <img id="logoPreview" src="" alt="Logo Preview" style="display:none; max-width: 100px; margin: 10px 0;">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="date">Invoice Date</label>
-                        <input type="date" id="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="due-date">Due Date</label>
-                        <input type="date" id="due-date" required>
-                    </div>
-                </div>
+    <h2>Invoice Details</h2>
+    <input type="text" id="invoiceNumber" placeholder="Invoice Number (auto-generated)">
+    <input type="date" id="issueDate" placeholder="Issue Date">
+    <input type="date" id="dueDate" placeholder="Due Date">
+    <select id="currencySelector">
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+        <option value="INR">INR (₹)</option>
+        <option value="CAD">CAD (C$)</option>
+        <option value="AUD">AUD (A$)</option>
+        <option value="JPY">JPY (¥)</option>
+        <option value="CNY">CNY (¥)</option>
+        <option value="CHF">CHF (Fr)</option>
+        <option value="SEK">SEK (kr)</option>
+        <option value="NZD">NZD (NZ$)</option>
+        <option value="SGD">SGD (S$)</option>
+        <option value="HKD">HKD (HK$)</option>
+        <option value="NOK">NOK (kr)</option>
+        <option value="KRW">KRW (₩)</option>
+        <option value="BRL">BRL (R$)</option>
+        <option value="RUB">RUB (₽)</option>
+        <option value="ZAR">ZAR (R)</option>
+        <!-- Add more currencies as needed -->
+    </select>
 
-                <div class="form-group">
-                    <label for="client-details">Client Details</label>
-                    <textarea id="client-details" rows="3" required></textarea>
-                </div>
+    <h2>Invoice From</h2>
+    <input type="text" id="businessName" placeholder="Business Name">
+    <input type="text" id="businessAddress" placeholder="Business Address">
+    <input type="text" id="businessPhone" placeholder="Phone Number">
+    <input type="email" id="businessEmail" placeholder="Email Address">
+    <input type="text" id="taxId" placeholder="Tax ID / GSTIN / VAT Number">
 
-                <div class="line-items" id="line-items">
-                    <h3>Line Items</h3>
-                    <div class="line-item">
-                        <input type="text" placeholder="Description" required>
-                        <input type="number" placeholder="Quantity" required>
-                        <input type="number" placeholder="Price" required>
-                        <button type="button" class="remove-item">Remove</button>
-                    </div>
-                </div>
+    <h2>Bill To</h2>
+    <input type="text" id="clientBusinessName" placeholder="Client Business Name">
+    <input type="text" id="clientAddress" placeholder="Address">
+    <input type="text" id="clientPhone" placeholder="Phone Number">
+    <input type="email" id="clientEmail" placeholder="Email Address">
+    <input type="text" id="clientTaxId" placeholder="Client Tax ID">
 
-                <button type="button" id="add-item">Add Item</button>
-                <button type="submit">Generate Invoice</button>
-            </form>
+    <h2>Itemized List</h2>
+    <div id="itemList"></div>
+    <button onclick="addItem()">Add Item</button>
 
-            <div id="preview-section"></div>
+    <h2>Summary</h2>
+    <div id="summary">
+        <p>Subtotal: <span id="subtotal">0</span></p>
+        <input type="text" id="overallDiscount" placeholder="Overall Discount" onchange="updateFinalTotal()">
+        <p>Tax: <span id="tax">0</span></p> <!-- Tax calculation needs to be added -->
+        <input type="text" id="shippingCharges" placeholder="Shipping Charges" onchange="updateFinalTotal()">
+        <h3>Final Total: <span id="finalTotal">0</span></h3>
+    </div>
+
+    <h2>Payment Methods</h2>
+    <p>How does the invoice get paid?</p>
+    <select id="paymentMethod" onchange="showPaymentDetails()">
+        <option value="bankTransfer">Bank Transfer</option>
+        <option value="paypal">PayPal</option>
+        <option value="upi">UPI</option>
+        <option value="cash">Cash</option>
+    </select>
+    <div id="paymentDetails">
+        <!-- Payment details will be dynamically added here -->
+        <div id="bankTransferDetails" style="display: none;">
+            <input type="text" id="bankName" placeholder="Bank Name">
+            <input type="text" id="accountHolderName" placeholder="Account Holder Name">
+            <input type="text" id="accountNumber" placeholder="Account Number">
+            <input type="text" id="ifscSwiftCode" placeholder="IFSC / SWIFT Code">
         </div>
-
-        <div class="card faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <details>
-                <summary>How do I download my invoice?</summary>
-                <p>After filling out the form and clicking 'Generate Invoice', you'll see a preview of your invoice. Click the 'Download PDF' button to save it to your device.</p>
-            </details>
-            <details>
-                <summary>Can I customize the invoice template?</summary>
-                <p>Yes! You can add your business logo, customize line items, and modify client details. The template is flexible to meet various business needs.</p>
-            </details>
-            <details>
-                <summary>Is my data secure?</summary>
-                <p>All invoice generation happens locally in your browser. We don't store any of your business or client information on our servers.</p>
-            </details>
-            <details>
-                <summary>Can I save my invoices for later?</summary>
-                <p>While we don't store invoices online, you can download them as PDFs and save them locally on your device for future reference.</p>
-            </details>
+        <div id="paypalDetails" style="display: none;">
+            <input type="email" id="paypalEmail" placeholder="PayPal Email">
+            <input type="text" id="paypalLink" placeholder="PayPal Payment Link (optional)">
+        </div>
+        <div id="upiDetails" style="display: none;">
+            <input type="text" id="upiId" placeholder="UPI ID (e.g. tacsaro@upi)">
+        </div>
+         <div id="cashDetails" style="display: none;">
+            <p>Payable in cash on delivery.</p>
         </div>
     </div>
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Invoice Generator",
-        "description": "Create professional invoices instantly with our free invoice generator",
-        "applicationCategory": "BusinessApplication",
-        "offers": {
-            "@type": "Offer",
-            "price": "0"
-        },
-        "featureList": [
-            "Professional invoice generation",
-            "PDF download",
-            "Custom line items",
-            "Business details customization"
-        ]
+    <h2>Additional Fields</h2>
+    <textarea id="notes" placeholder="Notes / Remarks"></textarea>
+    <textarea id="terms" placeholder="Terms & Conditions"></textarea>
+    <input type="text" id="signature" placeholder="Signature (optional)">
+
+    <button onclick="createInvoice()">Create Invoice</button>
+    <button onclick="downloadPDF()">Download as PDF</button>
+    <button onclick="cancel()">Cancel</button>
+
+    <h2>About This Tool</h2>
+    <p>This tool is perfect for freelancers, small businesses, agencies, and professionals. It helps in easy, fast, accurate invoicing, and allows users to send and save invoices in a professional format.</p>
+
+    <h2>Help & Support</h2>
+    <p class="help-support"><a href="#" id="invoicingGuideLink">Invoicing Guide</a> 
+
+    <div class="faq">
+        <h2>FAQ</h2>
+        <h3 onclick="toggleFAQ(this)">What is an invoice?</h3>
+        <div class="faq-content">An invoice is a document that itemizes and records a transaction between a buyer and a seller.</div>
+        <h3 onclick="toggleFAQ(this)">How do I calculate tax or discounts?</h3>
+        <div class="faq-content">You can calculate tax as a percentage of the subtotal and discounts can be applied as a percentage or fixed amount.</div>
+        <h3 onclick="toggleFAQ(this)">Can I include my business logo?</h3>
+        <div class="faq-content">Yes, you can upload your business logo at the top of the invoice.</div>
+        <h3 onclick="toggleFAQ(this)">Can I save my invoice as a PDF?</h3>
+        <div class="faq-content">Yes, you can download your invoice as a PDF after creating it.</div>
+        <h3 onclick="toggleFAQ(this)">Is this tool free to use?</h3>
+        <div class="faq-content">Yes, this tool is free to use for all users.</div>
+    </div>
+</div>
+
+<!-- Invoice Preview Area -->
+<div id="invoicePreview">
+    <!-- Invoice content will be generated here by JavaScript -->
+     <div class="preview-actions" style="margin-top: 20px; text-align: center;">
+        <button onclick="cancel()">Cancel Edit</button>
+        <button onclick="downloadPDF()">Download as PDF</button>
+    </div>
+</div>
+
+<!-- Include html2pdf.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    function previewLogo(event) {
+        const logoPreview = document.getElementById('logoPreview');
+        logoPreview.src = URL.createObjectURL(event.target.files[0]);
+        logoPreview.style.display = 'block';
     }
-    </script>
 
-    <script>
-    window.jsPDF = window.jspdf.jsPDF;
+    function addItem() {
+        const itemList = document.getElementById('itemList');
+        const itemRow = document.createElement('div');
+        itemRow.className = 'item-row';
+        itemRow.innerHTML = `
+            <input type="text" placeholder="Item Name">
+            <input type="text" placeholder="Description">
+            <input type="number" placeholder="Quantity" onchange="calculateTotal()">
+            <input type="number" placeholder="Rate/Unit Price" onchange="calculateTotal()">
+            <input type="number" placeholder="Discount (%)" onchange="calculateTotal()">
+            <input type="text" placeholder="Total" readonly>
+            <button onclick="removeItem(this)">Remove</button>
+        `;
+        itemList.appendChild(itemRow);
+    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('invoice-form');
-        const addItemBtn = document.getElementById('add-item');
-        const lineItemsContainer = document.getElementById('line-items');
-        const previewSection = document.getElementById('preview-section');
+    function removeItem(button) {
+        button.parentElement.remove();
+        calculateTotal();
+    }
 
-        // Add new line item
-        addItemBtn.addEventListener('click', function() {
-            const lineItem = document.createElement('div');
-            lineItem.className = 'line-item';
-            lineItem.innerHTML = `
-                <input type="text" placeholder="Description" required>
-                <input type="number" placeholder="Quantity" required>
-                <input type="number" placeholder="Price" required>
-                <button type="button" class="remove-item">Remove</button>
+    function calculateTotal() {
+        const itemRows = document.querySelectorAll('.item-row');
+        let subtotal = 0;
+        itemRows.forEach(row => {
+            const quantity = row.children[2].value || 0;
+            const rate = row.children[3].value || 0;
+            const discount = row.children[4].value || 0;
+            const total = (quantity * rate) - (discount / 100 * (quantity * rate));
+            row.children[5].value = total.toFixed(2);
+            subtotal += total;
+        });
+        document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+        updateFinalTotal();
+    }
+
+    function updateFinalTotal() {
+        const subtotal = parseFloat(document.getElementById('subtotal').innerText);
+        const overallDiscount = parseFloat(document.getElementById('overallDiscount').value) || 0;
+        // Tax calculation needs to be implemented based on user input or a fixed rate
+        const tax = parseFloat(document.getElementById('tax').innerText) || 0; // Currently always 0
+        const shippingCharges = parseFloat(document.getElementById('shippingCharges').value) || 0;
+        const finalTotal = subtotal - overallDiscount + tax + shippingCharges;
+        document.getElementById('finalTotal').innerText = finalTotal.toFixed(2);
+    }
+
+    // Function to show/hide payment details based on selection
+    function showPaymentDetails() {
+        const method = document.getElementById('paymentMethod').value;
+        document.getElementById('bankTransferDetails').style.display = 'none';
+        document.getElementById('paypalDetails').style.display = 'none';
+        document.getElementById('upiDetails').style.display = 'none';
+        document.getElementById('cashDetails').style.display = 'none';
+
+        if (method === 'bankTransfer') {
+            document.getElementById('bankTransferDetails').style.display = 'block';
+        } else if (method === 'paypal') {
+            document.getElementById('paypalDetails').style.display = 'block';
+        } else if (method === 'upi') {
+            document.getElementById('upiDetails').style.display = 'block';
+        } else if (method === 'cash') {
+             document.getElementById('cashDetails').style.display = 'block';
+        }
+    }
+
+    // Initial call to show default payment details
+    showPaymentDetails();
+
+
+    function createInvoice() {
+        const previewDiv = document.getElementById('invoicePreview');
+        const container = document.querySelector('.container');
+
+        // Collect data from form fields
+        const logoSrc = document.getElementById('logoPreview').src;
+        const showLogo = document.getElementById('logoPreview').style.display !== 'none';
+        const invoiceNumber = document.getElementById('invoiceNumber').value;
+        const issueDate = document.getElementById('issueDate').value;
+        const dueDate = document.getElementById('dueDate').value;
+        const currency = document.getElementById('currencySelector').value;
+
+        const businessName = document.getElementById('businessName').value;
+        const businessAddress = document.getElementById('businessAddress').value;
+        const businessPhone = document.getElementById('businessPhone').value;
+        const businessEmail = document.getElementById('businessEmail').value;
+        const taxId = document.getElementById('taxId').value;
+
+        const clientBusinessName = document.getElementById('clientBusinessName').value;
+        const clientAddress = document.getElementById('clientAddress').value;
+        const clientPhone = document.getElementById('clientPhone').value;
+        const clientEmail = document.getElementById('clientEmail').value;
+        const clientTaxId = document.getElementById('clientTaxId').value;
+
+        const itemRows = document.querySelectorAll('.item-row');
+        let itemTableRows = '';
+        itemRows.forEach(row => {
+            const itemName = row.children[0].value;
+            const description = row.children[1].value;
+            const quantity = row.children[2].value;
+            const rate = row.children[3].value;
+            const discount = row.children[4].value;
+            const total = row.children[5].value;
+            itemTableRows += `
+                <tr>
+                    <td>${itemName}</td>
+                    <td>${description}</td>
+                    <td>${quantity}</td>
+                    <td>${currency} ${parseFloat(rate).toFixed(2)}</td>
+                    <td>${discount}%</td>
+                    <td>${currency} ${parseFloat(total).toFixed(2)}</td>
+                </tr>
             `;
-            lineItemsContainer.appendChild(lineItem);
-
-            // Add remove functionality
-            lineItem.querySelector('.remove-item').addEventListener('click', function() {
-                lineItem.remove();
-            });
         });
 
-        // Handle form submission
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Generate preview
-            const preview = generatePreview();
-            previewSection.innerHTML = preview;
+        const subtotal = document.getElementById('subtotal').innerText;
+        const overallDiscount = document.getElementById('overallDiscount').value || 0;
+        const tax = document.getElementById('tax').innerText; // Needs calculation
+        const shippingCharges = document.getElementById('shippingCharges').value || 0;
+        const finalTotal = document.getElementById('finalTotal').innerText;
 
-            // Add download button
-            const controls = document.createElement('div');
-            controls.className = 'preview-controls';
-            controls.innerHTML = `
-                <button type="button" class="download-pdf">Download PDF</button>
-                <button type="button" class="edit-invoice">Edit Invoice</button>
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        let paymentDetailsHtml = '';
+        if (paymentMethod === 'bankTransfer') {
+            const bankName = document.getElementById('bankName').value;
+            const accountHolderName = document.getElementById('accountHolderName').value;
+            const accountNumber = document.getElementById('accountNumber').value;
+            const ifscSwiftCode = document.getElementById('ifscSwiftCode').value;
+            paymentDetailsHtml = `
+                <h3><i class="fas fa-university"></i> Bank Transfer Details</h3>
+                <p><strong>Bank Name:</strong> ${bankName}</p>
+                <p><strong>Account Holder Name:</strong> ${accountHolderName}</p>
+                <p><strong>Account Number:</strong> ${accountNumber}</p>
+                <p><strong>IFSC / SWIFT Code:</strong> ${ifscSwiftCode}</p>
             `;
-            previewSection.appendChild(controls);
-
-            // Handle PDF download
-            controls.querySelector('.download-pdf').addEventListener('click', function() {
-                const pdf = new jsPDF();
-                html2canvas(previewSection).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgProps = pdf.getImageProperties(imgData);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    
-                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save('invoice.pdf');
-                });
-            });
-
-            // Handle edit button
-            controls.querySelector('.edit-invoice').addEventListener('click', function() {
-                previewSection.innerHTML = '';
-                form.style.display = 'grid';
-            });
-
-            form.style.display = 'none';
-        });
-
-        // Generate preview HTML
-        function generatePreview() {
-            const businessName = document.getElementById('business-name').value;
-            const invoiceNumber = document.getElementById('invoice-number').value;
-            const date = document.getElementById('date').value;
-            const dueDate = document.getElementById('due-date').value;
-            const clientDetails = document.getElementById('client-details').value;
-
-            let lineItems = [];
-            document.querySelectorAll('.line-item').forEach(item => {
-                const inputs = item.querySelectorAll('input');
-                lineItems.push({
-                    description: inputs[0].value,
-                    quantity: inputs[1].value,
-                    price: inputs[2].value,
-                    total: inputs[1].value * inputs[2].value
-                });
-            });
-
-            const total = lineItems.reduce((sum, item) => sum + item.total, 0);
-
-            return `
-                <div class="invoice-preview">
-                    <h2>${businessName}</h2>
-                    <div class="invoice-details">
-                        <p><strong>Invoice Number:</strong> ${invoiceNumber}</p>
-                        <p><strong>Date:</strong> ${date}</p>
-                        <p><strong>Due Date:</strong> ${dueDate}</p>
-                    </div>
-                    <div class="client-info">
-                        <h3>Bill To:</h3>
-                        <p>${clientDetails.replace(/\n/g, '<br>')}</p>
-                    </div>
-                    <table style="width:100%; margin-top:20px; border-collapse: collapse;">
-                        <thead>
-                            <tr>
-                                <th style="text-align:left">Description</th>
-                                <th style="text-align:right">Quantity</th>
-                                <th style="text-align:right">Price</th>
-                                <th style="text-align:right">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${lineItems.map(item => `
-                                <tr>
-                                    <td>${item.description}</td>
-                                    <td style="text-align:right">${item.quantity}</td>
-                                    <td style="text-align:right">$${item.price}</td>
-                                    <td style="text-align:right">$${item.total}</td>
-                                </tr>
-                            `).join('')}
-                            <tr>
-                                <td colspan="3" style="text-align:right"><strong>Total:</strong></td>
-                                <td style="text-align:right"><strong>$${total}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        } else if (paymentMethod === 'paypal') {
+            const paypalEmail = document.getElementById('paypalEmail').value;
+            const paypalLink = document.getElementById('paypalLink').value;
+             paymentDetailsHtml = `
+                <h3><i class="fab fa-paypal"></i> PayPal Details</h3>
+                <p><strong>PayPal Email:</strong> ${paypalEmail}</p>
+                ${paypalLink ? `<p><strong>Payment Link:</strong> <a href="${paypalLink}" target="_blank">${paypalLink}</a></p>` : ''}
+            `;
+        } else if (paymentMethod === 'upi') {
+            const upiId = document.getElementById('upiId').value;
+             paymentDetailsHtml = `
+                <h3><i class="fas fa-qrcode"></i> UPI Payment Details</h3>
+                <p><strong>UPI ID:</strong> ${upiId}</p>
+            `;
+        } else if (paymentMethod === 'cash') {
+             paymentDetailsHtml = `
+                <h3><i class="fas fa-money-bill-wave"></i> Cash Payment</h3>
+                <p>Payable in cash on delivery.</p>
             `;
         }
+
+
+        const notes = document.getElementById('notes').value;
+        const terms = document.getElementById('terms').value;
+        const signature = document.getElementById('signature').value;
+
+        // Generate HTML for the preview content (excluding the buttons div)
+        const previewContentHtml = `
+            <div class="invoice-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>INVOICE</h1>
+                    <p><strong>Invoice #:</strong> ${invoiceNumber}</p>
+                    <p><strong>Issue Date:</strong> ${issueDate}</p>
+                    <p><strong>Due Date:</strong> ${dueDate}</p>
+                </div>
+                ${showLogo ? `<img src="${logoSrc}" alt="Business Logo" style="max-width: 150px;">` : ''}
+            </div>
+
+            <hr>
+
+            <div class="invoice-parties" style="display: flex; justify-content: space-between;">
+                <div class="invoice-from">
+                    <h2>Invoice From</h2>
+                    <p><strong>${businessName}</strong></p>
+                    <p>${businessAddress}</p>
+                    <p>Phone: ${businessPhone}</p>
+                    <p>Email: ${businessEmail}</p>
+                    ${taxId ? `<p>Tax ID: ${taxId}</p>` : ''}
+                </div>
+                <div class="invoice-to">
+                    <h2>Bill To</h2>
+                    <p><strong>${clientBusinessName}</strong></p>
+                    <p>${clientAddress}</p>
+                    <p>Phone: ${clientPhone}</p>
+                    <p>Email: ${clientEmail}</p>
+                     ${clientTaxId ? `<p>Client Tax ID: ${clientTaxId}</p>` : ''}
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>Itemized List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemTableRows}
+                </tbody>
+            </table>
+
+            <div class="summary-table">
+                <table>
+                    <tr>
+                        <td><strong>Subtotal:</strong></td>
+                        <td>${currency} ${parseFloat(subtotal).toFixed(2)}</td>
+                    </tr>
+                     ${overallDiscount > 0 ? `<tr><td><strong>Overall Discount:</strong></td><td>${currency} ${parseFloat(overallDiscount).toFixed(2)}</td></tr>` : ''}
+                    <tr>
+                        <td><strong>Tax:</strong></td>
+                        <td>${currency} ${parseFloat(tax).toFixed(2)}</td>
+                    </tr>
+                     ${shippingCharges > 0 ? `<tr><td><strong>Shipping:</strong></td><td>${currency} ${parseFloat(shippingCharges).toFixed(2)}</td></tr>` : ''}
+                    <tr>
+                        <td><strong>Final Total:</strong></td>
+                        <td>${currency} ${parseFloat(finalTotal).toFixed(2)}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="clear: both;"></div> <!-- Clear float -->
+
+            <div class="payment-details">
+                <h2>Payment Method</h2>
+                ${paymentDetailsHtml}
+            </div>
+
+            ${notes ? `<div class="notes"><strong>Notes:</strong> ${notes.replace(/\n/g, '<br>')}</div>` : ''}
+            ${terms ? `<div class="terms"><strong>Terms & Conditions:</strong> ${terms.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')}</div>` : ''}
+
+            ${signature ? `<div class="signature">${signature}</div>` : ''}
+        `;
+
+        // Set the inner HTML of the preview div, including the buttons
+        previewDiv.innerHTML = previewContentHtml + `
+             <div class="preview-actions" style="margin-top: 20px; text-align: center;">
+                <button onclick="cancel()">Cancel Edit</button>
+                <button onclick="downloadPDF()">Download as PDF</button>
+            </div>
+        `;
+
+
+        // Show the preview and hide the form
+        previewDiv.style.display = 'block';
+        container.style.display = 'none'; // Hide the form container
+    }
+
+    function downloadPDF() {
+        // Select the preview content, excluding the buttons div
+        const previewContent = document.getElementById('invoicePreview').cloneNode(true);
+        const previewActions = previewContent.querySelector('.preview-actions');
+        if (previewActions) {
+            previewActions.remove(); // Remove the buttons div from the cloned content
+        }
+
+        alert('Downloading PDF...');
+
+        // Options for html2pdf
+        const options = {
+            margin:       10,
+            filename:     'invoice.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Use html2pdf to generate and download the PDF from the modified content
+        html2pdf().from(previewContent).set(options).save();
+    }
+
+    function cancel() {
+        // Clear form fields (basic reset)
+        document.getElementById('logoUpload').value = '';
+        document.getElementById('logoPreview').src = '';
+        document.getElementById('logoPreview').style.display = 'none';
+        document.getElementById('invoiceNumber').value = '';
+        document.getElementById('issueDate').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('currencySelector').value = 'USD';
+
+        document.getElementById('businessName').value = '';
+        document.getElementById('businessAddress').value = '';
+        document.getElementById('businessPhone').value = '';
+        document.getElementById('businessEmail').value = '';
+        document.getElementById('taxId').value = '';
+
+        document.getElementById('clientBusinessName').value = '';
+        document.getElementById('clientAddress').value = '';
+        document.getElementById('clientPhone').value = '';
+        document.getElementById('clientEmail').value = '';
+        document.getElementById('clientTaxId').value = '';
+
+        document.getElementById('itemList').innerHTML = ''; // Clear items
+        addItem(); // Add one empty item row back
+
+        document.getElementById('overallDiscount').value = '';
+        document.getElementById('shippingCharges').value = '';
+        document.getElementById('subtotal').innerText = '0';
+        document.getElementById('tax').innerText = '0'; // Reset tax
+        document.getElementById('finalTotal').innerText = '0';
+
+        document.getElementById('paymentMethod').value = 'bankTransfer';
+        document.getElementById('bankName').value = '';
+        document.getElementById('accountHolderName').value = '';
+        document.getElementById('accountNumber').value = '';
+        document.getElementById('ifscSwiftCode').value = '';
+        document.getElementById('paypalEmail').value = '';
+        document.getElementById('paypalLink').value = '';
+        document.getElementById('upiId').value = '';
+        showPaymentDetails(); // Reset payment details display
+
+        document.getElementById('notes').value = '';
+        document.getElementById('terms').value = '';
+        document.getElementById('signature').value = '';
+
+        // Hide preview and show form
+        document.getElementById('invoicePreview').style.display = 'none';
+        document.querySelector('.container').style.display = 'block';
+    }
+
+    function toggleFAQ(element) {
+        const content = element.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Invoicing Guide Link
+    document.getElementById('invoicingGuideLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        alert(
+            "Invoicing Guide:\n\n" +
+            "How to Create an Invoice:\n" +
+            "1. Enter your business and client details.\n" +
+            "2. Add items with descriptions, quantities, rates, and any applicable discounts or tax.\n" +
+            "3. Select your preferred currency and payment method.\n" +
+            "4. Click 'Create Invoice' to preview.\n" +
+            "5. Click 'Download as PDF' to save or send the invoice.\n\n" +
+            "Need help? See our FAQs or click 'Need Help?' below to contact us."
+        );
     });
-    </script>
+
+     // Need Help Link (Placeholder) - Removed as per request
+    // document.getElementById('needHelpLink').addEventListener('click', function(event) {
+    //     event.preventDefault(); // Prevent default link behavior
+    //     alert("Need Help? Please contact support or refer to the documentation."); // Placeholder action
+    // });
+
+    // Add one item row on page load
+    addItem();
+
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Advanced Invoice Generator",
+    "description": "A tool for creating and managing invoices for freelancers and small businesses.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "itemCondition": "https://schema.org/NewCondition",
+        "availability": "https://schema.org/InStock"
+    }
+}
+</script>
+
 </body>
 </html>
-
 
