@@ -204,15 +204,6 @@
             }
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HG3R9KCKGR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HG3R9KCKGR');
-</script>
 </head>
 <body>
     <div class="container">
@@ -297,15 +288,37 @@
         let isDrawing = false;
         let lastX, lastY;
 
+        // Get canvas position to calculate touch coordinates relative to the canvas
+        const canvasRect = signatureCanvas.getBoundingClientRect();
+
         drawSignatureBtn.addEventListener('click', () => {
             signatureCanvas.style.display = 'block';
             signaturePreview.style.display = 'none';
             downloadOptions.style.display = 'none';
             ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height); // Clear canvas
+            
+            // Remove existing listeners to prevent duplicates
+            signatureCanvas.removeEventListener('mousedown', startDrawing);
+            signatureCanvas.removeEventListener('mousemove', draw);
+            signatureCanvas.removeEventListener('mouseup', stopDrawing);
+            signatureCanvas.removeEventListener('mouseout', stopDrawing);
+            
+            signatureCanvas.removeEventListener('touchstart', startDrawing);
+            signatureCanvas.removeEventListener('touchmove', draw);
+            signatureCanvas.removeEventListener('touchend', stopDrawing);
+            signatureCanvas.removeEventListener('touchcancel', stopDrawing); // Add touchcancel
+            
+            // Add mouse listeners
             signatureCanvas.addEventListener('mousedown', startDrawing);
             signatureCanvas.addEventListener('mousemove', draw);
             signatureCanvas.addEventListener('mouseup', stopDrawing);
             signatureCanvas.addEventListener('mouseout', stopDrawing);
+            
+            // Add touch listeners
+            signatureCanvas.addEventListener('touchstart', startDrawing);
+            signatureCanvas.addEventListener('touchmove', draw);
+            signatureCanvas.addEventListener('touchend', stopDrawing);
+            signatureCanvas.addEventListener('touchcancel', stopDrawing); // Handle touch interruption
         });
 
         typeSignatureBtn.addEventListener('click', () => {
@@ -373,27 +386,57 @@
 
         function startDrawing(event) {
             isDrawing = true;
-            lastX = event.offsetX;
-            lastY = event.offsetY;
+            // Get coordinates based on event type (mouse or touch)
+            const clientX = event.clientX || event.touches[0].clientX;
+            const clientY = event.clientY || event.touches[0].clientY;
+            
+            // Calculate coordinates relative to the canvas
+            lastX = clientX - canvasRect.left;
+            lastY = clientY - canvasRect.top;
+            
+            // Prevent scrolling on touch devices while drawing
+            if (event.type === 'touchstart') {
+                event.preventDefault();
+            }
         }
 
         function draw(event) {
             if (!isDrawing) return;
+            
+            // Get coordinates based on event type (mouse or touch)
+            const clientX = event.clientX || event.touches[0].clientX;
+            const clientY = event.clientY || event.touches[0].clientY;
+            
+            // Calculate coordinates relative to the canvas
+            const currentX = clientX - canvasRect.left;
+            const currentY = clientY - canvasRect.top;
+            
             ctx.beginPath();
             ctx.moveTo(lastX, lastY);
-            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.lineTo(currentX, currentY);
             ctx.stroke();
-            lastX = event.offsetX;
-            lastY = event.offsetY;
+            
+            lastX = currentX;
+            lastY = currentY;
+            
+             // Prevent scrolling on touch devices while drawing
+            if (event.type === 'touchmove') {
+                event.preventDefault();
+            }
         }
 
         function stopDrawing() {
             isDrawing = false;
             ctx.closePath();
+            // Update preview and download options after drawing stops
             signaturePreviewImg.src = signatureCanvas.toDataURL();
             signaturePreview.style.display = 'block';
             downloadOptions.style.display = 'block';
-            copySignatureBtn.style.display = 'block';
+            // Assuming copySignatureBtn exists and should be shown
+            const copySignatureBtn = document.getElementById('copySignatureBtn');
+            if (copySignatureBtn) {
+                 copySignatureBtn.style.display = 'block';
+            }
         }
 
         function downloadSignature(format) {
